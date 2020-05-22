@@ -1,11 +1,12 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
+import { MaxLength } from 'class-validator';
 
 @InputType()
 export class CreateTodoInput {
-  @Field()
+  @MaxLength(30)
   readonly label: string;
 
-  @Field({ nullable: true })
+  @MaxLength(500)
   readonly description?: string;
 
   @Field(() => Int)

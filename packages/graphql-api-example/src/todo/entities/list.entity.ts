@@ -2,15 +2,16 @@ import { Field, ObjectType, ID } from '@nestjs/graphql';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 import { TodoEntity } from './todo.entity';
+import { WithDate } from 'core';
 
 @ObjectType()
 @Entity('list')
-export class ListEntity {
+export class ListEntity extends WithDate {
 	@Field(() => ID)
-	@PrimaryGeneratedColumn('increment')
-	readonly id?: number
+	@PrimaryGeneratedColumn('uuid')
+	readonly id?: string
 
-	@Column('varchar', { length: 500, unique: true })
+	@Column('varchar', { length: 30, unique: true })
 	label?: string
 
 	@Column('varchar', { length: 500, nullable: true })
@@ -18,5 +19,5 @@ export class ListEntity {
 	
 	@Field(() => TodoEntity)
   @OneToMany(() => TodoEntity, todo => todo.parent)
-  todos?: TodoEntity[]
+	todos?: TodoEntity[]
 }

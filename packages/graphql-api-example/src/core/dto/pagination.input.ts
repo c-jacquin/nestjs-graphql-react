@@ -20,6 +20,6 @@ export abstract class PaginationArgs {
   @Field(() => Order)
   readonly order?: Order = Order.DESC;
 
-  readonly sortBy?: string;
+  readonly sortBy?: string = 'createdAt';
 }
 

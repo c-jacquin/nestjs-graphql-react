@@ -1,5 +1,5 @@
-import { Inject } from '@nestjs/common';
-import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
+import { Inject, NotFoundException } from '@nestjs/common';
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 
 import { ListEntity } from './entities/list.entity';
 import { TodoEntity } from './entities/todo.entity';
@@ -19,12 +19,18 @@ export class TodoResolver {
   }
 
   @Query(() => ListEntity)
-  async listById(@Args('id', { type: () => Int }) id: number) {
-    return this.todoService.getListById(id);
+  async listById(@Args('id') id: string) {
+    const list = await this.todoService.getListById(id);
+
+    if (!list) {
+      throw new NotFoundException();
+    }
+
+    return list;
   }
 
   @Mutation(() => Boolean)
-  async removeList(@Args('id', { type: () => Int }) id: number) {
+  async removeList(@Args('id') id: string) {
     try {
       const list = await this.todoService.removeList(id);
 

@@ -39,15 +39,15 @@ export class TodoService {
     return this.listRepository.find(query);
   }
 
-  async getListById(id: number) {
+  async getListById(id: string) {
     return this.listRepository.findOne({ where: { id }, relations: ['todos'] })
   }
 
-  async removeList(id: number) {
+  async removeList(id: string) {
     return this.listRepository.remove({ id });
   }
 
-  async getTodosByList(listId: number) {
+  async getTodosByList(listId: string) {
     return this.todoRepository.find({ where: { parentId: listId } });
   }
 }
