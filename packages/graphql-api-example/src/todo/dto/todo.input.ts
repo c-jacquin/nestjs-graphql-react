@@ -1,5 +1,5 @@
-import { InputType, Field, Int } from '@nestjs/graphql';
-import { MaxLength } from 'class-validator';
+import { InputType, Field, ID } from '@nestjs/graphql';
+import { MaxLength, IsUUID, IsOptional } from 'class-validator';
 
 @InputType()
 export class CreateTodoInput {
@@ -7,8 +7,11 @@ export class CreateTodoInput {
   readonly label: string;
 
   @MaxLength(500)
+  @IsOptional()
   readonly description?: string;
 
-  @Field(() => Int)
-  readonly parent: number;
+  @Field(() => ID)
+  @IsUUID()
+  @IsOptional()
+  readonly parent: string;
 }

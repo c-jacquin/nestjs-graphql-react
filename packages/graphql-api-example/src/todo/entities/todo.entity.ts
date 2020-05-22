@@ -1,4 +1,4 @@
-import { ObjectType, Int, Field, HideField, ID } from '@nestjs/graphql'
+import { ObjectType, Field, HideField, ID } from '@nestjs/graphql'
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm'
 
 import { ListEntity } from './list.entity'
@@ -24,7 +24,7 @@ export class TodoEntity extends WithDate {
 	})
 	parent?: ListEntity;
 	
-	@Field(() => Int)
-	@Column('number')
-	parentId?: number;
+	@HideField()
+	@Column()
+	parentId?: string;
 }
