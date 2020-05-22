@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Repository, FindManyOptions } from 'typeorm'
 
 import { ListEntity } from './entities/list.entity'
 import { TodoEntity } from './entities/todo.entity';
@@ -31,11 +31,19 @@ export class TodoService {
     return this.todoRepository.save(todo);
   }
 
-  async getList(params: ListQueryInput = {}) {
-    return this.listRepository.find({ relations: ['todos'], where: { ...params } });
+  async getList({ sortBy, skip, order, take, ...where }: ListQueryInput = {}) {
+    const query: FindManyOptions<ListEntity> = { skip, take, where, relations: ['todos'] };
+
+    if (!!sortBy) query.order = { [sortBy]: order };
+
+    return this.listRepository.find(query);
   }
 
   async getListById(id: number) {
     return this.listRepository.findOne({ where: { id }, relations: ['todos'] })
+  }
+
+  async getTodosByList(listId: number) {
+    return this.todoRepository.find({ where: { parentId: listId } });
   }
 }
