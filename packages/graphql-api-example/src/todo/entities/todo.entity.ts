@@ -1,4 +1,4 @@
-import { ObjectType, Int, Field, HideField } from '@nestjs/graphql'
+import { ObjectType, Int, Field, HideField, ID } from '@nestjs/graphql'
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm'
 
 import { ListEntity } from './list.entity'
@@ -6,8 +6,9 @@ import { ListEntity } from './list.entity'
 @ObjectType()
 @Entity('todo')
 export class TodoEntity {
-	@Field(() => Int)
-	@PrimaryGeneratedColumn('increment') id: number
+	@Field(() => ID)
+	@PrimaryGeneratedColumn('increment')
+	readonly id: number
 
 	@Column('varchar', { length: 500, unique: true })
 	label: string
@@ -16,7 +17,7 @@ export class TodoEntity {
 	description: string
 	
 	@HideField()
-	@ManyToOne(() => ListEntity, list => list.todos)
+	@ManyToOne(() => ListEntity, list => list.todos,  { onDelete: 'CASCADE' })
 	@JoinColumn({
 		name: 'parentId'
 	})

@@ -1,4 +1,4 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateTodoInput {
@@ -8,6 +8,6 @@ export class CreateTodoInput {
   @Field({ nullable: true })
   readonly description?: string;
 
-  @Field()
+  @Field(() => Int)
   readonly parent: number;
 }

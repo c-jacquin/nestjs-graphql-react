@@ -4,8 +4,8 @@ import { Repository, FindManyOptions } from 'typeorm'
 
 import { ListEntity } from './entities/list.entity'
 import { TodoEntity } from './entities/todo.entity';
-import { CreateListInput, ListQueryInput } from './inputs/list.input';
-import { CreateTodoInput } from './inputs/todo.input';
+import { CreateListInput, ListQueryInput } from './dto/list.input';
+import { CreateTodoInput } from './dto/todo.input';
 
 @Injectable()
 export class TodoService {
@@ -41,6 +41,10 @@ export class TodoService {
 
   async getListById(id: number) {
     return this.listRepository.findOne({ where: { id }, relations: ['todos'] })
+  }
+
+  async removeList(id: number) {
+    return this.listRepository.remove({ id });
   }
 
   async getTodosByList(listId: number) {
