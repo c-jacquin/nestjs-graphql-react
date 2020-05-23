@@ -45,8 +45,6 @@ export class AuthService {
   ): Promise<SimpleUser> {
     const user = await this.userRepository.findOne({ where: { email }, select: ['email', 'id', 'count'] });
     if (user && (await user.authenticate(pass))) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
       return user;
     }
 
@@ -79,7 +77,7 @@ export class AuthService {
       const user = await this.userRepository.findOne({ where: { sub } });
 
       if (count !== user.count) {
-        throw '';
+        throw new Error();
       }
 
       return this.generateToken(user);

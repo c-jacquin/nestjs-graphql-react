@@ -1,5 +1,6 @@
 export enum Errors {
-  ACCESS_TOKEN,
+  ACCESS_TOKEN_MISSING,
+  ACCESS_TOKEN_EXPIRED,
   REFRESH_TOKEN
 }
 
@@ -24,4 +25,11 @@ export enum Env {
   JWT_SECRET = 'JWT_SECRET',
   REFRESH_TOKEN_DURATION = 'REFRESH_TOKEN_DURATION',
   ACCESS_TOKEN_DURATION = 'ACCESS_TOKEN_DURATION',
+}
+
+export const LogLvlMapper = {
+  [NodeEnv.STAGING]: 'info',
+  [NodeEnv.PROD]: 'error',
+  [NodeEnv.DEV]: 'debug',
+  [NodeEnv.TEST]: 'silent'
 }

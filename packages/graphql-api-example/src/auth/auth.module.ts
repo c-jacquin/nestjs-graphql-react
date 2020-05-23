@@ -29,7 +29,7 @@ import { ExpiredAccessTokenFilter } from './exceptions/expired-access-token.filt
       },
       inject: [ConfigService],
     }),
-    HttpModule.register({}),
+    HttpModule,
   ],
   providers: [
     AuthService,

@@ -2,6 +2,8 @@ import { Catch, ArgumentsHost, Inject, HttpService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GqlExceptionFilter, GqlArgumentsHost } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 
 import { IContext, Errors, HttpHeaders, Env } from '@shared';
 import { AuthService } from 'auth/auth.service';
@@ -14,6 +16,7 @@ export class ExpiredAccessTokenFilter implements GqlExceptionFilter {
     @Inject(JwtService) private readonly jwtService: JwtService,
     @Inject(HttpService) private readonly http: HttpService,
     @Inject(ConfigService) private readonly config: ConfigService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   async catch(exception: ExpiredAccessTokenException, host: ArgumentsHost) {
@@ -41,7 +44,7 @@ export class ExpiredAccessTokenFilter implements GqlExceptionFilter {
         [HttpHeaders.X_REFRESH_TOKEN]: refreshToken,
       });
 
-      // Rollback
+      // Redo the http call with the valid access token
       const host = this.config.get(Env.HOST);
       const port = this.config.get(Env.PORT);
       const url = `http://${host}:${port}${req.originalUrl}`;
@@ -53,14 +56,12 @@ export class ExpiredAccessTokenFilter implements GqlExceptionFilter {
         data: { data },
       } = await this.http.post(url, req.body, { headers }).toPromise();
 
-      console.log(data[fieldName])
-
       return data[fieldName];
     } catch (err) {
       exception.code = Errors.REFRESH_TOKEN;
       exception.message = 'Unauthorized';
 
-      res.status(exception.status);
+      res.status(exception.getStatus());
 
       return exception;
     }

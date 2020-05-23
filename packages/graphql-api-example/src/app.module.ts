@@ -1,33 +1,41 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { WinstonModule } from 'nest-winston';
 
-import { EmailScalar, IContext, NodeEnv } from '@shared';
-import { configSchema } from 'config';
+import { EmailScalar } from '@shared';
+import configOptions from 'config/app-config';
+import { AllExceptionsFilter } from 'error.filter';
+import { AuthModule } from 'auth/auth.module';
 import { TodoModule } from 'todo/todo.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      debug: !!process.env.DEBUG,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => (config.get('typeorm')),
+      inject: [ConfigService]
     }),
-    GraphQLModule.forRoot({
-      autoSchemaFile: 'schema.gql',
-      debug: !!process.env.DEBUG,
-      context: ({ req }): IContext => ({ req, res: req.res }),
+    GraphQLModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => (config.get('graphql')),
+      inject: [ConfigService]
     }),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      ignoreEnvFile: process.env.NODE_ENV === NodeEnv.PROD,
-      validationSchema: configSchema,
+    ConfigModule.forRoot(configOptions),
+    WinstonModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => (config.get('logger')),
+      inject: [ConfigService]
     }),
+    AuthModule,
     TodoModule,
   ],
   controllers: [],
   providers: [
     EmailScalar,
+    AllExceptionsFilter,
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,

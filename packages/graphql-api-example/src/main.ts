@@ -1,20 +1,38 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
+import { WINSTON_MODULE_NEST_PROVIDER, WINSTON_MODULE_PROVIDER, WinstonModule } from 'nest-winston';
+import { Logger } from 'winston';
 
 import { Env } from '@shared';
-import { ExpiredAccessTokenFilter } from 'auth/exceptions/expired-access-token.filter';
 import { AppModule } from 'app.module';
+import { AllExceptionsFilter } from 'error.filter';
+import { ExpiredAccessTokenFilter } from 'auth/exceptions/expired-access-token.filter';
+import { rawConfig } from 'config/logger';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const config = app.get<ConfigService>(ConfigService);
-  const expiredAccessTokenFilter = app.get(ExpiredAccessTokenFilter);
+(async () => {
+  let logger: Logger;
 
-  app.enableCors();
-  app.use(helmet());
-  app.useGlobalFilters(expiredAccessTokenFilter);
-
-  await app.listen(config.get(Env.PORT), config.get(Env.HOST));
-}
-bootstrap();
+  try {
+    const app = await NestFactory.create(AppModule, {
+      logger: WinstonModule.createLogger(rawConfig)
+    });
+    const config = app.get<ConfigService>(ConfigService);
+    const expiredAccessTokenFilter = app.get(ExpiredAccessTokenFilter);
+    const errorFilter = app.get(AllExceptionsFilter);
+    logger = app.get<Logger>(WINSTON_MODULE_PROVIDER);
+    
+    app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+    app.useGlobalFilters(expiredAccessTokenFilter);
+    app.useGlobalFilters(errorFilter);
+    app.use(helmet());
+    app.enableCors();
+  
+    await app.listen(config.get(Env.PORT), config.get(Env.HOST));
+  
+    logger.info(`Graphql api is listening on port ${config.get(Env.PORT)}`);
+  } catch (err) {
+    logger.warn('Something fail while bootstraping :(')
+    logger.error(err);
+  }
+})();
