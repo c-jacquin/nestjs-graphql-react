@@ -23,8 +23,7 @@ import { Env } from 'shared';
     logger = app.get<Logger>(WINSTON_MODULE_PROVIDER);
     
     app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-    app.useGlobalFilters(expiredAccessTokenFilter);
-    app.useGlobalFilters(errorFilter);
+    app.useGlobalFilters(errorFilter, expiredAccessTokenFilter);
     app.use(helmet());
     app.enableCors();
   
@@ -34,6 +33,6 @@ import { Env } from 'shared';
   } catch (err) {
     logger.warn('Something fail while bootstraping :(')
     logger.error(err.message);
-    console.error(err);
+    logger.error(err.stack);
   }
 })();

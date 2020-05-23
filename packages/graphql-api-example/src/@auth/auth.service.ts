@@ -1,30 +1,27 @@
 import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
 import { Env } from 'shared';
 import { ResetPassInput } from './dto/reset-pass.input';
 import { SignInDto } from './dto/signIn.model';
 import { SignUpInput } from './dto/signUp.input';
 import { UserEntity } from './entities/user.entity';
+import { UsersService } from './users/users.service';
 
-type SimpleUser = Pick<UserEntity, 'email' | 'id' | 'count'>
+type SimpleUser = Pick<UserEntity, 'email' | 'id' | 'count'>;
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-    @Inject(JwtService) private jwtService: JwtService,
-    @Inject(ConfigService) private config: ConfigService
+    @Inject(JwtService) private readonly jwtService: JwtService,
+    @Inject(ConfigService) private readonly config: ConfigService,
+    @Inject(UsersService) private readonly usersService: UsersService,
   ) {}
 
   generateToken(user: SimpleUser): SignInDto {
     return {
       accessToken: this.jwtService.sign({
-        email: user.email,
         sub: user.id,
       }),
       refreshToken: this.jwtService.sign(
@@ -36,14 +33,16 @@ export class AuthService {
           expiresIn: this.config.get(Env.REFRESH_TOKEN_DURATION),
         },
       ),
-    }
+    };
   }
 
-  async validateLocalUser(
-    email: string,
-    pass: string,
-  ): Promise<SimpleUser> {
-    const user = await this.userRepository.findOne({ where: { email }, select: ['email', 'id', 'count'] });
+  async validateLocalUser(email: string, pass: string): Promise<SimpleUser> {
+    const user = await this.usersService.getOne({
+      where: { email },
+      select: ['id', 'count', 'password'],
+      relations: ['role'],
+    });
+
     if (user && (await user.authenticate(pass))) {
       return user;
     }
@@ -58,23 +57,17 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    await this.userRepository.save(validUser);
-
     return this.generateToken(validUser);
   }
 
   async signup(data: SignUpInput) {
-    const user = new UserEntity();
-    user.email = data.email;
-    user.password = data.password;
-
-    return this.userRepository.save(user);
+    return this.usersService.create(data);
   }
 
   async refreshToken(refreshToken: string) {
     try {
       const { sub, count } = this.jwtService.verify(refreshToken);
-      const user = await this.userRepository.findOne({ where: { sub } });
+      const user = await this.usersService.getOne({ where: { sub } });
 
       if (count !== user.count) {
         throw new Error();
@@ -86,19 +79,16 @@ export class AuthService {
     }
   }
 
-  async getUserById(id: string) {
-    return this.userRepository.findOne({ where: { id } });
-  }
-
   // Todo: Too simple add email thingz ...
   async resetUserPassword({ id, password }: ResetPassInput) {
-    const user = await this.getUserById(id);
-
-    user.newPassword = password;
-    user.count++;
-
-    await this.userRepository.save(user);
+    const user = await this.usersService.getOne({ where: { id } });
+    
+    await this.usersService.update(id, { newPassword: password, count: user.count++ })
 
     return true;
+  }
+
+  async whoAmI(id: string) {
+    return this.usersService.getOne({ where: { id } })
   }
 }

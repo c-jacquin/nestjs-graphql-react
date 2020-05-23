@@ -19,7 +19,7 @@ export class AuthResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => UserEntity)
   whoAmI(@CurrentUser() user: UserEntity) {
-    return this.authService.getUserById(user.id);
+    return this.authService.whoAmI(user.id);
   }
   
   @Mutation(() => SignInDto)

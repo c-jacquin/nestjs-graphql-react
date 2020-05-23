@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Inject,
   Injectable,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
 import { Logger } from 'winston';
@@ -25,11 +26,13 @@ export class AllExceptionsFilter implements GqlExceptionFilter {
     switch (status) {
       case HttpStatus.INTERNAL_SERVER_ERROR:
         this.logger.error(`${status.toString()} ${exception.message}`);
-        break;
+        this.logger.error(exception.stack);
+
+        return new InternalServerErrorException();
       default:
         this.logger.warn(`Error ==> ${status.toString()} ${exception.message}`);
-    }
 
-    return exception;
+        return exception;
+    }
   }
 }

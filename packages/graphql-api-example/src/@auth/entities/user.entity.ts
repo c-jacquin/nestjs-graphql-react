@@ -1,31 +1,53 @@
 import { Field, ObjectType, ID, HideField } from '@nestjs/graphql';
-import { compare, hash,  } from 'bcrypt';
-import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm'
+import { compare, hash } from 'bcrypt';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  BeforeUpdate,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 
-import { WithDate, EmailScalar as Email } from 'shared';
+import { WithDate, EmailScalar as Email, Roles } from 'shared';
+import { RoleEntity } from './role.entity';
 
 const SALT = 10;
 
 @ObjectType()
 @Entity('user')
 export class UserEntity extends WithDate {
-	@Field(() => ID)
-	@PrimaryGeneratedColumn('uuid')
-	readonly id?: string
+  @Field(() => ID)
+  @PrimaryGeneratedColumn('uuid')
+  readonly id?: string;
 
   @Field(() => Email)
-	@Column('varchar', { length: 20, unique: true })
-	email?: string
+  @Column('varchar', { length: 20, unique: true })
+  email?: string;
 
   @HideField()
-	@Column('varchar', { length: 20})
-  password?: string
+  @Column('varchar', { length: 20 })
+  password?: string;
 
   @Column('integer', { default: 0 })
-  count: number;
+  count?: number;
 
   @HideField()
-  newPassword: string;
+  newPassword?: string;
+
+  @ManyToOne(
+    () => RoleEntity,
+    role => role.users,
+  )
+  @JoinColumn({
+    name: 'roleId',
+  })
+  role?: RoleEntity;
+
+  @HideField()
+  @Column('integer')
+  roleId: Roles;
 
   @BeforeInsert()
   async beforeInsert() {
@@ -35,11 +57,15 @@ export class UserEntity extends WithDate {
   @BeforeUpdate()
   async beforeUpdate() {
     if (this.newPassword) {
-      this.password = await hash(this.newPassword, SALT)
+      this.password = await hash(this.newPassword, SALT);
     }
   }
 
   authenticate(pass: string) {
     return compare(pass, this.password);
+  }
+
+  hasRole(roles: Roles[]) {
+    return !!roles.find(item => item.toUpperCase() === this.role.name);
   }
 }

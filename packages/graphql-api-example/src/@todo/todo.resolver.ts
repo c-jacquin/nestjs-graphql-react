@@ -38,7 +38,6 @@ export class TodoResolver {
 
       return !list.id;
     } catch (err) {
-      console.error(err);
       return false;
     }
   }

@@ -15,7 +15,7 @@ export enum NodeEnv {
   STAGING = 'staging',
   PROD = 'production',
   TEST = 'test',
-  DEBUG = 'true',
+  DEBUG = 'debug',
 }
 
 export enum Env {
@@ -27,9 +27,17 @@ export enum Env {
   ACCESS_TOKEN_DURATION = 'ACCESS_TOKEN_DURATION',
 }
 
-export const LogLvlMapper = {
-  [NodeEnv.STAGING]: 'info',
+export enum Roles {
+  ADMIN = 'ADMIN',
+  NORMAL = 'NORMAL'
+}
+
+type LogLvl = 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly';
+
+export const LogLvl: Record<NodeEnv, LogLvl> = {
+  [NodeEnv.STAGING]: 'warn',
   [NodeEnv.PROD]: 'error',
-  [NodeEnv.DEV]: 'debug',
-  [NodeEnv.TEST]: 'silent'
+  [NodeEnv.DEV]: 'info',
+  [NodeEnv.TEST]: 'error',
+  [NodeEnv.DEBUG]: 'debug'
 }

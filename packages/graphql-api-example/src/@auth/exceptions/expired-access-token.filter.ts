@@ -2,21 +2,20 @@ import { Catch, ArgumentsHost, Inject, HttpService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GqlExceptionFilter, GqlArgumentsHost } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Logger } from 'winston';
 
 import { AuthService } from '@auth/auth.service';
 import { ExpiredAccessTokenException } from './expired-access-token.exception';
 import { IContext, Errors, HttpHeaders, Env } from 'shared';
+import { UsersService } from '@auth/users/users.service';
 
 @Catch(ExpiredAccessTokenException)
 export class ExpiredAccessTokenFilter implements GqlExceptionFilter {
   constructor(
     @Inject(AuthService) private readonly authService: AuthService,
+    @Inject(UsersService) private readonly usersService: UsersService,
     @Inject(JwtService) private readonly jwtService: JwtService,
     @Inject(HttpService) private readonly http: HttpService,
     @Inject(ConfigService) private readonly config: ConfigService,
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   async catch(exception: ExpiredAccessTokenException, host: ArgumentsHost) {
@@ -28,7 +27,7 @@ export class ExpiredAccessTokenFilter implements GqlExceptionFilter {
       const { sub, count } = await this.jwtService.verifyAsync(
         req.headers[HttpHeaders.X_REFRESH_TOKEN] as string,
       );
-      const user = await this.authService.getUserById(sub);
+      const user = await this.usersService.getOne({ where: { id: sub } });
 
       // Check if the user has reset his pawword recently
       if (count !== user.count) {

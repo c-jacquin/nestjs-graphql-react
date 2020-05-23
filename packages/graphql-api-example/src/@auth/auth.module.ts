@@ -1,42 +1,54 @@
-import { Module, HttpModule } from '@nestjs/common';
+import { Module, HttpModule, OnModuleInit, Inject } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
+import { AuthFixture } from './fixtures/auth-fixture.service';
+import { RoleEntity } from './entities/role.entity';
 import { UserEntity } from './entities/user.entity';
 import { ExpiredAccessTokenFilter } from './exceptions/expired-access-token.filter';
-import { GqlAuthGuard } from './guards/graphql.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { Env } from 'shared';
+import { UsersResolver } from './users/users.resolver';
+import { UsersService } from './users/users.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([UserEntity, RoleEntity]),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (config: ConfigService) => {
-        return {
-          secret: config.get(Env.JWT_SECRET),
-          signOptions: {
-            expiresIn: config.get(Env.ACCESS_TOKEN_DURATION),
-          },
-        };
-      },
+      useFactory: async (config: ConfigService) => config.get('jwt'),
       inject: [ConfigService],
     }),
     HttpModule,
   ],
   providers: [
+    AuthFixture,
     AuthService,
     AuthResolver,
-    JwtStrategy,
-    GqlAuthGuard,
     ExpiredAccessTokenFilter,
+    JwtStrategy,
+    UsersResolver,
+    UsersService,
   ],
-  exports: [AuthService, GqlAuthGuard],
+  exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule implements OnModuleInit{
+  constructor(
+    @Inject(AuthFixture) private readonly authFixture: AuthFixture,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
+  
+  async onModuleInit() {
+    try {
+      await this.authFixture.insertData();
+    } catch (err) {
+      this.logger.error(err.message);
+    }
+  }
+}
