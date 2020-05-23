@@ -4,10 +4,9 @@ import { APP_PIPE } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { EmailScalar } from './core';
-import { TodoModule } from './todo/todo.module';
-import { configValidator } from 'core';
-import { AuthModule } from './auth/auth.module';
+import { EmailScalar, IContext, NodeEnv } from '@shared';
+import { configSchema } from 'config';
+import { TodoModule } from 'todo/todo.module';
 
 @Module({
   imports: [
@@ -17,13 +16,13 @@ import { AuthModule } from './auth/auth.module';
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       debug: !!process.env.DEBUG,
+      context: ({ req }): IContext => ({ req, res: req.res }),
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      ignoreEnvFile: process.env.NODE_ENV === 'production',
-      validationSchema: configValidator,
+      ignoreEnvFile: process.env.NODE_ENV === NodeEnv.PROD,
+      validationSchema: configSchema,
     }),
-    AuthModule,
     TodoModule,
   ],
   controllers: [],

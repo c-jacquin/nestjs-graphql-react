@@ -1,23 +1,20 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
-
 import helmet from 'helmet';
 
-import { AppModule } from './app.module';
+import { Env } from '@shared';
+import { ExpiredAccessTokenFilter } from 'auth/exceptions/expired-access-token.filter';
+import { AppModule } from 'app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter({ logger: !!process.env.DEBUG_HTTP }),
-  );
+  const app = await NestFactory.create(AppModule);
   const config = app.get<ConfigService>(ConfigService);
+  const expiredAccessTokenFilter = app.get(ExpiredAccessTokenFilter);
+
   app.enableCors();
   app.use(helmet());
+  app.useGlobalFilters(expiredAccessTokenFilter);
 
-  await app.listen(config.get('PORT'), '0.0.0.0');
+  await app.listen(config.get(Env.PORT), config.get(Env.HOST));
 }
 bootstrap();

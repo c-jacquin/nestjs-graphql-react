@@ -1,6 +1,7 @@
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject, NotFoundException, UseGuards } from '@nestjs/common';
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 
+import { GqlAuthGuard } from 'auth/guards/graphql.guard';
 import { ListEntity } from './entities/list.entity';
 import { TodoEntity } from './entities/todo.entity';
 import { CreateListInput, ListQueryInput } from './dto/list.input';
@@ -9,13 +10,14 @@ import { TodoService } from './todo.service';
 
 @Resolver(() => ListEntity)
 export class TodoResolver {
-  constructor(
-    @Inject(TodoService) private todoService: TodoService
-  ) {}
+  constructor(@Inject(TodoService) private todoService: TodoService) {}
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => [ListEntity])
-  async list(@Args({ nullable: true }) query?: ListQueryInput) {
-    return this.todoService.getList(query);
+  async list(
+    @Args({ nullable: true }) query?: ListQueryInput,
+  ) {
+    return this.todoService.getLists(query);
   }
 
   @Query(() => ListEntity)
@@ -41,11 +43,11 @@ export class TodoResolver {
     }
   }
 
-	@Mutation(() => ListEntity)
-	async createList(@Args('data') data: CreateListInput) {
-		return this.todoService.createList(data)
+  @Mutation(() => ListEntity)
+  async createList(@Args('data') data: CreateListInput) {
+    return this.todoService.createList(data);
   }
-  
+
   @Mutation(() => TodoEntity)
   async createTodo(@Args('data') data: CreateTodoInput) {
     return this.todoService.createTodo(data);

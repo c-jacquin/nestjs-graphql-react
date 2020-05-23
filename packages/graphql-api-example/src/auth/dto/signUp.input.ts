@@ -1,14 +1,14 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, ArgsType } from '@nestjs/graphql';
 import {
   IsString,
   MinLength,
   MaxLength,
-  Matches,
+  // Matches,
   IsEmail,
 } from 'class-validator';
-import { EmailScalar as Email } from 'core';
+import { EmailScalar as Email } from '@shared';
 
-@InputType()
+@ArgsType()
 export class SignUpInput {
   @IsEmail()
   @Field(() => Email)

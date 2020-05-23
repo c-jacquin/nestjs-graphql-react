@@ -31,7 +31,7 @@ export class TodoService {
     return this.todoRepository.save(todo);
   }
 
-  async getList({ sortBy, skip, order, take, ...where }: ListQueryInput = {}) {
+  async getLists({ sortBy, skip, order, take, ...where }: ListQueryInput = {}) {
     const query: FindManyOptions<ListEntity> = { skip, take, where, relations: ['todos'] };
 
     if (!!sortBy) query.order = { [sortBy]: order };

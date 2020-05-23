@@ -1,8 +1,8 @@
 import { Field, ObjectType, ID, HideField } from '@nestjs/graphql';
-import { compare, hash } from 'bcrypt';
-import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm'
+import { compare, hash,  } from 'bcrypt';
+import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm'
 
-import { WithDate, EmailScalar as Email } from 'core';
+import { WithDate, EmailScalar as Email } from '@shared';
 
 const SALT = 10;
 
@@ -21,9 +21,22 @@ export class UserEntity extends WithDate {
 	@Column('varchar', { length: 20})
   password?: string
 
+  @Column('integer', { default: 0 })
+  count: number;
+
+  @HideField()
+  newPassword: string;
+
   @BeforeInsert()
-  async hashPassword() {
+  async beforeInsert() {
     this.password = await hash(this.password, SALT);
+  }
+
+  @BeforeUpdate()
+  async beforeUpdate() {
+    if (this.newPassword) {
+      this.password = await hash(this.newPassword, SALT)
+    }
   }
 
   authenticate(pass: string) {
