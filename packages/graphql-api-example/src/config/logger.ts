@@ -13,14 +13,14 @@ const winstonTransport: any[] = [
       nestWinstonUtils.format.nestLike(),
     ),
   }),
-]
+];
 
 if (process.env.NODE_ENV === NodeEnv.PROD)
   winstonTransport.push(gcpWinstonTransport);
 
 export const rawConfig = {
   level: LogLvl[process.env[Env.NODE_ENV]],
-  transports: winstonTransport
+  transports: winstonTransport,
 };
 
 export default registerAs('logger', () => rawConfig);

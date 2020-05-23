@@ -2,7 +2,7 @@ import { Field, Int, registerEnumType, ArgsType } from '@nestjs/graphql';
 
 export enum Order {
   ASC = 'ASC',
-  DESC = 'DESC'
+  DESC = 'DESC',
 }
 
 registerEnumType(Order, {
@@ -22,4 +22,3 @@ export abstract class PaginationArgs {
 
   readonly sortBy?: string = 'createdAt';
 }
-

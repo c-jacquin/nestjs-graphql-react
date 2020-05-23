@@ -82,13 +82,16 @@ export class AuthService {
   // Todo: Too simple add email thingz ...
   async resetUserPassword({ id, password }: ResetPassInput) {
     const user = await this.usersService.getOne({ where: { id } });
-    
-    await this.usersService.update(id, { newPassword: password, count: user.count++ })
+
+    await this.usersService.update(id, {
+      newPassword: password,
+      count: user.count++,
+    });
 
     return true;
   }
 
   async whoAmI(id: string) {
-    return this.usersService.getOne({ where: { id } })
+    return this.usersService.getOne({ where: { id } });
   }
 }

@@ -8,14 +8,8 @@ import { TodoService } from './todo.service';
 import { TodoResolver } from './todo.resolver';
 
 @Module({
-  imports: [
-    AuthModule,
-    TypeOrmModule.forFeature([ ListEntity, TodoEntity ]),
-  ],
+  imports: [AuthModule, TypeOrmModule.forFeature([ListEntity, TodoEntity])],
   controllers: [],
-  providers: [
-    TodoService,
-    TodoResolver
-  ],
+  providers: [TodoService, TodoResolver],
 })
 export class TodoModule {}

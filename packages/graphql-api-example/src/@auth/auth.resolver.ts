@@ -12,20 +12,16 @@ import { GqlAuthGuard } from './guards/graphql.guard';
 
 @Resolver('Auth')
 export class AuthResolver {
-  constructor(
-    @Inject(AuthService) private readonly authService: AuthService,
-  ) {}
+  constructor(@Inject(AuthService) private readonly authService: AuthService) {}
 
   @UseGuards(GqlAuthGuard)
   @Query(() => UserEntity)
   whoAmI(@CurrentUser() user: UserEntity) {
     return this.authService.whoAmI(user.id);
   }
-  
+
   @Mutation(() => SignInDto)
-  login(
-    @Args() input: SignInInput,
-  ) {
+  login(@Args() input: SignInInput) {
     return this.authService.login(input);
   }
 

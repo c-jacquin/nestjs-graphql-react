@@ -1,13 +1,13 @@
 export enum Errors {
   ACCESS_TOKEN_MISSING,
   ACCESS_TOKEN_EXPIRED,
-  REFRESH_TOKEN
+  REFRESH_TOKEN,
 }
 
 export enum HttpHeaders {
   X_REFRESH_TOKEN = 'x-refresh-token',
   X_ACCESS_TOKEN = 'x-access-token',
-  AUTHORIZATION = 'Authorization'
+  AUTHORIZATION = 'Authorization',
 }
 
 export enum NodeEnv {
@@ -29,15 +29,22 @@ export enum Env {
 
 export enum Roles {
   ADMIN = 'ADMIN',
-  NORMAL = 'NORMAL'
+  NORMAL = 'NORMAL',
 }
 
-type LogLvl = 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly';
+type LogLvl =
+  | 'error'
+  | 'warn'
+  | 'info'
+  | 'http'
+  | 'verbose'
+  | 'debug'
+  | 'silly';
 
 export const LogLvl: Record<NodeEnv, LogLvl> = {
   [NodeEnv.STAGING]: 'warn',
   [NodeEnv.PROD]: 'error',
   [NodeEnv.DEV]: 'info',
   [NodeEnv.TEST]: 'error',
-  [NodeEnv.DEBUG]: 'debug'
-}
+  [NodeEnv.DEBUG]: 'debug',
+};

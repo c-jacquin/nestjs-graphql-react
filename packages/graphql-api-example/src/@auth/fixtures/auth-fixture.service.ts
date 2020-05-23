@@ -10,7 +10,7 @@ import { Roles } from 'shared';
 
 const userData = {
   email: 'admin@admin.com',
-  password: 'admin'
+  password: 'admin',
 };
 
 @Injectable()
@@ -42,24 +42,27 @@ export class AuthFixture {
       }
 
       return Promise.all(
-        Object.keys(Roles).map(async (role) => {
-          let existingRole = await this.roleRepository.findOne({ name: role });
+        Object.keys(Roles)
+          .map(async role => {
+            let existingRole = await this.roleRepository.findOne({
+              name: role,
+            });
 
-          if (!existingRole) {
-            existingRole = await this.roleRepository.save({ name: role });
+            if (!existingRole) {
+              existingRole = await this.roleRepository.save({ name: role });
 
-            this.logger.info(`Role ${existingRole.name} created !`);
+              this.logger.info(`Role ${existingRole.name} created !`);
 
-            if (existingRole.name === Roles.ADMIN) {
-              user.role = existingRole;
-              
-              this.logger.info('Admin role added to admin user !');
-  
-              return this.userRepository.save(user);
+              if (existingRole.name === Roles.ADMIN) {
+                user.role = existingRole;
+
+                this.logger.info('Admin role added to admin user !');
+
+                return this.userRepository.save(user);
+              }
             }
-          }
-        })
-        .filter(Boolean)
+          })
+          .filter(Boolean),
       );
     } else {
       return Promise.resolve();

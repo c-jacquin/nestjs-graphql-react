@@ -14,8 +14,8 @@ import { Roles } from 'shared';
 export class UsersResolver {
   constructor(
     @Inject(UsersService) private readonly usersService: UsersService,
-    ) {}
-    
+  ) {}
+
   @RestrictTo(Roles.ADMIN)
   @UseGuards(RolesGuard)
   @Query(() => [UserEntity])

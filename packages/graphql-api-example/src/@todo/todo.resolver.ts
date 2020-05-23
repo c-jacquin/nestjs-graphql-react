@@ -14,9 +14,7 @@ export class TodoResolver {
 
   @UseGuards(GqlAuthGuard)
   @Query(() => [ListEntity])
-  async list(
-    @Args({ nullable: true }) query?: ListQueryInput,
-  ) {
+  async list(@Args({ nullable: true }) query?: ListQueryInput) {
     return this.todoService.getLists(query);
   }
 

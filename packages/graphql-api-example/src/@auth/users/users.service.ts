@@ -19,7 +19,12 @@ export class UsersService {
   }
 
   async get({ sortBy, skip, order, take, ...where }: UsersQueryInput = {}) {
-    const query: FindManyOptions<UserEntity> = { skip, take, where, relations: ['role'] };
+    const query: FindManyOptions<UserEntity> = {
+      skip,
+      take,
+      where,
+      relations: ['role'],
+    };
 
     if (!!sortBy) query.order = { [sortBy]: order };
 
@@ -41,5 +46,5 @@ export class UsersService {
 
   async delete(id: string) {
     return this.userRepository.delete(id);
-  } 
+  }
 }

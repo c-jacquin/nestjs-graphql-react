@@ -15,19 +15,19 @@ import { EmailScalar } from 'shared';
   imports: [
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => (config.get('typeorm')),
-      inject: [ConfigService]
+      useFactory: (config: ConfigService) => config.get('typeorm'),
+      inject: [ConfigService],
     }),
     GraphQLModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => (config.get('graphql')),
-      inject: [ConfigService]
+      useFactory: (config: ConfigService) => config.get('graphql'),
+      inject: [ConfigService],
     }),
     ConfigModule.forRoot(configOptions),
     WinstonModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => (config.get('logger')),
-      inject: [ConfigService]
+      useFactory: (config: ConfigService) => config.get('logger'),
+      inject: [ConfigService],
     }),
     AuthModule,
     TodoModule,

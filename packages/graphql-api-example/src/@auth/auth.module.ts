@@ -38,12 +38,12 @@ import { UsersService } from './users/users.service';
   ],
   exports: [AuthService],
 })
-export class AuthModule implements OnModuleInit{
+export class AuthModule implements OnModuleInit {
   constructor(
     @Inject(AuthFixture) private readonly authFixture: AuthFixture,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
-  
+
   async onModuleInit() {
     try {
       await this.authFixture.insertData();

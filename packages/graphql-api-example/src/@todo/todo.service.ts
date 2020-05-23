@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, FindManyOptions } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, FindManyOptions } from 'typeorm';
 
-import { ListEntity } from './entities/list.entity'
+import { ListEntity } from './entities/list.entity';
 import { TodoEntity } from './entities/todo.entity';
 import { CreateListInput, ListQueryInput } from './dto/list.input';
 import { CreateTodoInput } from './dto/todo.input';
@@ -10,8 +10,10 @@ import { CreateTodoInput } from './dto/todo.input';
 @Injectable()
 export class TodoService {
   constructor(
-    @InjectRepository(ListEntity) private readonly listRepository: Repository<ListEntity>,
-    @InjectRepository(TodoEntity) private readonly todoRepository: Repository<TodoEntity>
+    @InjectRepository(ListEntity)
+    private readonly listRepository: Repository<ListEntity>,
+    @InjectRepository(TodoEntity)
+    private readonly todoRepository: Repository<TodoEntity>,
   ) {}
 
   async createList(data: CreateListInput) {
@@ -27,12 +29,17 @@ export class TodoService {
     todo.label = data.label;
     todo.description = data.description;
     todo.parentId = data.parent;
-    
+
     return this.todoRepository.save(todo);
   }
 
   async getLists({ sortBy, skip, order, take, ...where }: ListQueryInput = {}) {
-    const query: FindManyOptions<ListEntity> = { skip, take, where, relations: ['todos'] };
+    const query: FindManyOptions<ListEntity> = {
+      skip,
+      take,
+      where,
+      relations: ['todos'],
+    };
 
     if (!!sortBy) query.order = { [sortBy]: order };
 
@@ -40,7 +47,7 @@ export class TodoService {
   }
 
   async getListById(id: string) {
-    return this.listRepository.findOne({ where: { id }, relations: ['todos'] })
+    return this.listRepository.findOne({ where: { id }, relations: ['todos'] });
   }
 
   async removeList(id: string) {

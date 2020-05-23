@@ -13,8 +13,12 @@ export class RoleEntity {
   @Column({ unique: true })
   public name: string;
 
-  @OneToMany(() => UserEntity, user => user.role, {
-    cascade: ['insert', 'update']
-  })
+  @OneToMany(
+    () => UserEntity,
+    user => user.role,
+    {
+      cascade: ['insert', 'update'],
+    },
+  )
   public users?: UserEntity[];
 }
