@@ -4,11 +4,11 @@ import helmet from 'helmet';
 import { WINSTON_MODULE_NEST_PROVIDER, WINSTON_MODULE_PROVIDER, WinstonModule } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { Env } from '@shared';
+import { ExpiredAccessTokenFilter } from '@auth/exceptions/expired-access-token.filter';
 import { AppModule } from 'app.module';
-import { AllExceptionsFilter } from 'error.filter';
-import { ExpiredAccessTokenFilter } from 'auth/exceptions/expired-access-token.filter';
 import { rawConfig } from 'config/logger';
+import { AllExceptionsFilter } from 'error.filter';
+import { Env } from 'shared';
 
 (async () => {
   let logger: Logger;
@@ -33,6 +33,7 @@ import { rawConfig } from 'config/logger';
     logger.info(`Graphql api is listening on port ${config.get(Env.PORT)}`);
   } catch (err) {
     logger.warn('Something fail while bootstraping :(')
-    logger.error(err);
+    logger.error(err.message);
+    console.error(err);
   }
 })();

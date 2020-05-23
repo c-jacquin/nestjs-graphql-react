@@ -5,9 +5,9 @@ import { JwtService } from '@nestjs/jwt';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { IContext, Errors, HttpHeaders, Env } from '@shared';
-import { AuthService } from 'auth/auth.service';
+import { AuthService } from '@auth/auth.service';
 import { ExpiredAccessTokenException } from './expired-access-token.exception';
+import { IContext, Errors, HttpHeaders, Env } from 'shared';
 
 @Catch(ExpiredAccessTokenException)
 export class ExpiredAccessTokenFilter implements GqlExceptionFilter {

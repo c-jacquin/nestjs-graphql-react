@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi';
 
-import { Env, NodeEnv } from '@shared';
+import { Env, NodeEnv } from 'shared';
 import graphqlConfig from 'config/graphql';
 import loggerConfig from 'config/logger';
 import typeormConfig from 'config/typeorm';

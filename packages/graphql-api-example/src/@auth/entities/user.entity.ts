@@ -2,7 +2,7 @@ import { Field, ObjectType, ID, HideField } from '@nestjs/graphql';
 import { compare, hash,  } from 'bcrypt';
 import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm'
 
-import { WithDate, EmailScalar as Email } from '@shared';
+import { WithDate, EmailScalar as Email } from 'shared';
 
 const SALT = 10;
 

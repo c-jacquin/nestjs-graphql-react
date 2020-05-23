@@ -4,7 +4,7 @@ import { utilities as nestWinstonUtils } from 'nest-winston';
 
 import winston from 'winston';
 
-import { NodeEnv, LogLvlMapper, Env } from '@shared';
+import { NodeEnv, LogLvlMapper, Env } from 'shared';
 
 const winstonTransport: any[] = [
   new winston.transports.Console({

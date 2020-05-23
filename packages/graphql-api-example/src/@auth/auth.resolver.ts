@@ -1,14 +1,14 @@
 import { Inject, UseGuards } from '@nestjs/common';
 import { Resolver, Args, Mutation, Query } from '@nestjs/graphql';
 
-import { SignInInput } from './dto/signIn.input';
-import { SignUpInput } from './dto/signUp.input';
-import { ResetPassInput } from './dto/reset-pass.input';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { ResetPassInput } from './dto/reset-pass.input';
+import { SignInInput } from './dto/signIn.input';
 import { SignInDto } from './dto/signIn.model';
+import { SignUpInput } from './dto/signUp.input';
 import { UserEntity } from './entities/user.entity';
 import { GqlAuthGuard } from './guards/graphql.guard';
-import { CurrentUser } from './decorators/current-user.decorator';
 
 @Resolver('Auth')
 export class AuthResolver {

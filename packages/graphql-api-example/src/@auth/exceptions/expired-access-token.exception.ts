@@ -1,5 +1,6 @@
-import { Errors } from '@shared/enums'
 import { UnauthorizedException } from '@nestjs/common';
+
+import { Errors } from 'shared'
 
 export class ExpiredAccessTokenException extends UnauthorizedException {
   code = Errors.ACCESS_TOKEN_EXPIRED;

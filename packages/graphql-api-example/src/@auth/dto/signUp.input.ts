@@ -6,7 +6,8 @@ import {
   // Matches,
   IsEmail,
 } from 'class-validator';
-import { EmailScalar as Email } from '@shared';
+
+import { EmailScalar as Email } from 'shared';
 
 @ArgsType()
 export class SignUpInput {

@@ -4,10 +4,10 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Env } from '@shared';
+import { Env } from 'shared';
+import { ResetPassInput } from './dto/reset-pass.input';
 import { SignInDto } from './dto/signIn.model';
 import { SignUpInput } from './dto/signUp.input';
-import { ResetPassInput } from './dto/reset-pass.input';
 import { UserEntity } from './entities/user.entity';
 
 type SimpleUser = Pick<UserEntity, 'email' | 'id' | 'count'>

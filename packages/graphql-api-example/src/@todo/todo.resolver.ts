@@ -1,7 +1,7 @@
 import { Inject, NotFoundException, UseGuards } from '@nestjs/common';
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 
-import { GqlAuthGuard } from 'auth/guards/graphql.guard';
+import { GqlAuthGuard } from '@auth/guards/graphql.guard';
 import { ListEntity } from './entities/list.entity';
 import { TodoEntity } from './entities/todo.entity';
 import { CreateListInput, ListQueryInput } from './dto/list.input';

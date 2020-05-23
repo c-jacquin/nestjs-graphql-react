@@ -1,17 +1,16 @@
 import { Module, HttpModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Env } from '@shared';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { UserEntity } from './entities/user.entity';
-import { LocalStrategy } from './strategies/local.strategy';
-import { JwtStrategy } from './strategies/jwt.strategy';
-import { GqlAuthGuard } from './guards/graphql.guard';
 import { ExpiredAccessTokenFilter } from './exceptions/expired-access-token.filter';
+import { GqlAuthGuard } from './guards/graphql.guard';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { Env } from 'shared';
 
 @Module({
   imports: [
@@ -34,7 +33,6 @@ import { ExpiredAccessTokenFilter } from './exceptions/expired-access-token.filt
   providers: [
     AuthService,
     AuthResolver,
-    LocalStrategy,
     JwtStrategy,
     GqlAuthGuard,
     ExpiredAccessTokenFilter,

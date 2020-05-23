@@ -1,7 +1,7 @@
 import { Field, InputType, ArgsType, ID } from '@nestjs/graphql';
 import { MaxLength, MinLength, IsUUID, IsOptional } from 'class-validator';
 
-import { PaginationArgs } from '../../@shared';
+import { PaginationArgs } from 'shared';
 
 @ArgsType()
 export class ListQueryInput extends PaginationArgs {

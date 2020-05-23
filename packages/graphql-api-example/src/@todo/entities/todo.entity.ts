@@ -2,7 +2,7 @@ import { ObjectType, Field, HideField, ID } from '@nestjs/graphql'
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm'
 
 import { ListEntity } from './list.entity'
-import { WithDate } from '@shared'
+import { WithDate } from 'shared'
 
 @ObjectType()
 @Entity('todo')

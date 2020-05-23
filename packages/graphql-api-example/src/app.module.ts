@@ -5,11 +5,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WinstonModule } from 'nest-winston';
 
-import { EmailScalar } from '@shared';
-import configOptions from 'config/app-config';
+import { AuthModule } from '@auth/auth.module';
+import { TodoModule } from '@todo/todo.module';
+import configOptions from 'config/config';
 import { AllExceptionsFilter } from 'error.filter';
-import { AuthModule } from 'auth/auth.module';
-import { TodoModule } from 'todo/todo.module';
+import { EmailScalar } from 'shared';
 
 @Module({
   imports: [
