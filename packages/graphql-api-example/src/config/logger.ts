@@ -1,10 +1,27 @@
-import { LoggingWinston as gcpWinstonTransport } from '@google-cloud/logging-winston';
+// import { LoggingWinston as gcpWinstonTransport } from '@google-cloud/logging-winston';
 import { registerAs } from '@nestjs/config';
 import { utilities as nestWinstonUtils } from 'nest-winston';
 
-import winston from 'winston';
+import winston, { LoggerOptions } from 'winston';
 
-import { NodeEnv, LogLvl, Env } from 'shared';
+import { Env, NodeEnv } from 'shared';
+
+type LogLvl =
+  | 'error'
+  | 'warn'
+  | 'info'
+  | 'http'
+  | 'verbose'
+  | 'debug'
+  | 'silly';
+
+export const LogLvl: Record<NodeEnv, LogLvl> = {
+  [NodeEnv.STAGING]: 'warn',
+  [NodeEnv.PROD]: 'verbose',
+  [NodeEnv.DEV]: 'info',
+  [NodeEnv.TEST]: 'error',
+  [NodeEnv.LOCAL]: 'info',
+};
 
 const winstonTransport: any[] = [
   new winston.transports.Console({
@@ -15,10 +32,10 @@ const winstonTransport: any[] = [
   }),
 ];
 
-if (process.env.NODE_ENV === NodeEnv.PROD)
-  winstonTransport.push(gcpWinstonTransport);
+// if (process.env.NODE_ENV === NodeEnv.PROD)
+//   winstonTransport.push(gcpWinstonTransport);
 
-export const rawConfig = {
+export const rawConfig: LoggerOptions = {
   level: LogLvl[process.env[Env.NODE_ENV]],
   transports: winstonTransport,
 };

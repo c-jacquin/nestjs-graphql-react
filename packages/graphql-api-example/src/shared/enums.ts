@@ -11,40 +11,31 @@ export enum HttpHeaders {
 }
 
 export enum NodeEnv {
+  LOCAL = 'local',
   DEV = 'development',
   STAGING = 'staging',
   PROD = 'production',
   TEST = 'test',
-  DEBUG = 'debug',
 }
 
 export enum Env {
+  DEBUG = 'true',
   HOST = 'HOST',
   PORT = 'PORT',
   NODE_ENV = 'NODE_ENV',
   JWT_SECRET = 'JWT_SECRET',
   REFRESH_TOKEN_DURATION = 'REFRESH_TOKEN_DURATION',
   ACCESS_TOKEN_DURATION = 'ACCESS_TOKEN_DURATION',
+  ADMIN_EMAIL = 'ADMIN_EMAIL',
+  ADMIN_PASS = 'ADMIN_PASS',
+  PG_USER = 'PG_USER',
+  PG_PASS = 'PG_PASS',
+  PG_DB = 'PG_DB',
+  PG_HOST = 'PG_HOST',
+  PG_PORT = 'PG_PORT',
 }
 
 export enum Roles {
   ADMIN = 'ADMIN',
   NORMAL = 'NORMAL',
 }
-
-type LogLvl =
-  | 'error'
-  | 'warn'
-  | 'info'
-  | 'http'
-  | 'verbose'
-  | 'debug'
-  | 'silly';
-
-export const LogLvl: Record<NodeEnv, LogLvl> = {
-  [NodeEnv.STAGING]: 'warn',
-  [NodeEnv.PROD]: 'error',
-  [NodeEnv.DEV]: 'info',
-  [NodeEnv.TEST]: 'error',
-  [NodeEnv.DEBUG]: 'debug',
-};

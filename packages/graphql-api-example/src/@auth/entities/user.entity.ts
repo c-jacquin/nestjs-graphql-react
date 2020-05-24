@@ -23,11 +23,11 @@ export class UserEntity extends WithDate {
   readonly id?: string;
 
   @Field(() => Email)
-  @Column('varchar', { length: 20, unique: true })
+  @Column('varchar', { length: 50, unique: true })
   email?: string;
 
   @HideField()
-  @Column('varchar', { length: 20 })
+  @Column('varchar', { length: 60 })
   password?: string;
 
   @Column('integer', { default: 0 })
@@ -46,8 +46,8 @@ export class UserEntity extends WithDate {
   role?: RoleEntity;
 
   @HideField()
-  @Column('integer')
-  roleId: Roles;
+  @Column('varchar')
+  roleId: string;
 
   @BeforeInsert()
   async beforeInsert() {

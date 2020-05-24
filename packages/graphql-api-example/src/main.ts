@@ -12,14 +12,18 @@ import { ExpiredAccessTokenFilter } from '@auth/exceptions/expired-access-token.
 import { AppModule } from 'app.module';
 import { rawConfig } from 'config/logger';
 import { AllExceptionsFilter } from 'error.filter';
-import { Env } from 'shared';
+import { Env, NodeEnv } from 'shared';
 
 (async () => {
   let logger: Logger;
 
   try {
     const app = await NestFactory.create(AppModule, {
-      logger: WinstonModule.createLogger(rawConfig),
+      logger:
+        process.env[Env.NODE_ENV] !== NodeEnv.PROD &&
+        process.env[Env.NODE_ENV] !== NodeEnv.TEST
+          ? WinstonModule.createLogger(rawConfig)
+          : false,
     });
     const config = app.get<ConfigService>(ConfigService);
     const expiredAccessTokenFilter = app.get(ExpiredAccessTokenFilter);

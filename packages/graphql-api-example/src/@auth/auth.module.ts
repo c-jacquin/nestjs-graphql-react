@@ -8,7 +8,7 @@ import { Logger } from 'winston';
 
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
-import { AuthFixture } from './fixtures/auth-fixture.service';
+import { RolesFixture } from './fixtures/roles.fixture.service';
 import { RoleEntity } from './entities/role.entity';
 import { UserEntity } from './entities/user.entity';
 import { ExpiredAccessTokenFilter } from './exceptions/expired-access-token.filter';
@@ -28,7 +28,7 @@ import { UsersService } from './users/users.service';
     HttpModule,
   ],
   providers: [
-    AuthFixture,
+    RolesFixture,
     AuthService,
     AuthResolver,
     ExpiredAccessTokenFilter,
@@ -40,13 +40,13 @@ import { UsersService } from './users/users.service';
 })
 export class AuthModule implements OnModuleInit {
   constructor(
-    @Inject(AuthFixture) private readonly authFixture: AuthFixture,
+    @Inject(RolesFixture) private readonly rolesFixture: RolesFixture,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
   async onModuleInit() {
     try {
-      await this.authFixture.insertData();
+      await this.rolesFixture.insertData();
     } catch (err) {
       this.logger.error(err.message);
     }
