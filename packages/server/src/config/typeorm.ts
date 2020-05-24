@@ -1,6 +1,8 @@
 import { registerAs } from '@nestjs/config';
 import { ConnectionOptions } from 'typeorm';
-import { Env, NodeEnv } from 'shared';
+
+import { NodeEnv } from '@app/common';
+import { Env } from 'shared';
 
 const IS_LOCAL = process.env[Env.NODE_ENV] === NodeEnv.LOCAL;
 

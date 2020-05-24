@@ -3,9 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { GqlExceptionFilter, GqlArgumentsHost } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 
+import { Errors, HttpHeaders } from '@app/common';
 import { AuthService } from '@auth/auth.service';
 import { ExpiredAccessTokenException } from './expired-access-token.exception';
-import { IContext, Errors, HttpHeaders, Env } from 'shared';
+import { IContext, Env } from 'shared';
 import { UsersService } from '@auth/users/users.service';
 
 @Catch(ExpiredAccessTokenException)

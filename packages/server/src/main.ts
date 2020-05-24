@@ -8,11 +8,12 @@ import {
 } from 'nest-winston';
 import { Logger } from 'winston';
 
+import { NodeEnv } from '@app/common';
 import { ExpiredAccessTokenFilter } from '@auth/exceptions/expired-access-token.filter';
 import { AppModule } from 'app.module';
 import { rawConfig } from 'config/logger';
 import { AllExceptionsFilter } from 'error.filter';
-import { Env, NodeEnv } from 'shared';
+import { Env } from 'shared';
 
 (async () => {
   let logger: Logger;

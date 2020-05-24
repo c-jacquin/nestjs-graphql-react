@@ -1,7 +1,8 @@
 import Joi from '@hapi/joi';
 import { ConfigModuleOptions } from '@nestjs/config/dist/interfaces';
 
-import { Env, NodeEnv } from 'shared';
+import { NodeEnv } from '@app/common';
+import { Env } from 'shared';
 import graphqlConfig from 'config/graphql';
 import loggerConfig from 'config/logger';
 import typeormConfig from 'config/typeorm';

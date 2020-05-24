@@ -4,7 +4,8 @@ import { utilities as nestWinstonUtils } from 'nest-winston';
 
 import winston, { LoggerOptions } from 'winston';
 
-import { Env, NodeEnv } from 'shared';
+import { NodeEnv } from '@app/common';
+import { Env } from 'shared';
 
 type LogLvl =
   | 'error'

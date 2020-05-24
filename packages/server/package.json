@@ -1,6 +1,6 @@
 {
-  "name": "graphql-api-example",
-  "version": "0.0.1",
+  "name": "@app/server",
+  "version": "0.0.0",
   "description": "",
   "author": "",
   "private": true,
@@ -8,12 +8,12 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "NODE_ENV=local nest start",
-    "start:dev": "NODE_ENV=local nest start --debug --watch",
-    "start:debug": "DEBUG=true NODE_ENV=local nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start": "node dist/main",
+
+    "dev": "NODE_ENV=local nest start --debug --watch",
+    "debug": "DEBUG=true NODE_ENV=local nest start --debug --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+  
     "test": "NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest --watch",
     "test:cov": "NODE_ENV=test jest --coverage",
@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@app/common": "0.0.0",
     "@google-cloud/logging-winston": "^3.0.6",
     "@hapi/joi": "^17.1.1",
     "@nestjs/common": "^7.0.0",

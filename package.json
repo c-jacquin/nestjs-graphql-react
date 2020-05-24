@@ -9,9 +9,8 @@
     "install": "lerna bootstrap --use-workspaces",
     "build": "lerna run build -- stream",
     "lint": "lerna run lint --stream",
-    "start": "lerna run start",
-    "start:dev": "lerna run dev --stream",
-    "start:debug": "lerna run start:debug"
+    "dev": "lerna run dev --stream",
+    "debug": "lerna run debug --stream"
   },
   "devDependencies": {
     "lerna": "^3.21.0"
