@@ -23,6 +23,9 @@ export class TodoEntity extends WithDate {
   @Column('varchar', { length: 500, nullable: true })
   description?: string;
 
+  @Column('boolean')
+  completed?: boolean;
+
   @HideField()
   @ManyToOne(
     () => ListEntity,

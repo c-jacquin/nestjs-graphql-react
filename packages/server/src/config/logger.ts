@@ -6,6 +6,7 @@ import winston, { LoggerOptions } from 'winston';
 
 import { NodeEnv } from '@app/common';
 import { Env } from 'shared';
+import { StreamTransportInstance } from 'winston/lib/winston/transports';
 
 type LogLvl =
   | 'error'
@@ -24,7 +25,7 @@ export const LogLvl: Record<NodeEnv, LogLvl> = {
   [NodeEnv.LOCAL]: 'info',
 };
 
-const winstonTransport: any[] = [
+const winstonTransport: StreamTransportInstance[] = [
   new winston.transports.Console({
     format: winston.format.combine(
       winston.format.timestamp(),

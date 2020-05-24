@@ -36,9 +36,9 @@ import { Env } from 'shared';
     app.use(helmet());
     app.enableCors();
 
-    await app.listen(config.get(Env.PORT), config.get(Env.HOST));
-
-    logger.info(`Graphql api is listening on port ${config.get(Env.PORT)}`);
+    await app.listen(config.get(Env.PORT), config.get(Env.HOST), () => {
+      logger.info(`Graphql api is listening on port ${config.get(Env.PORT)}`);
+    });
   } catch (err) {
     logger.warn('Something fail while bootstraping :(');
     logger.error(err.message);

@@ -10,8 +10,9 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "esModuleInterop": true,
-    "incremental": true
+    "incremental": true,
+    "skipLibCheck": true
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src"]
+  "include": ["src", "test"]
 }

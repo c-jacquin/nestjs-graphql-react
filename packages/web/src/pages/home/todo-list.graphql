@@ -1,0 +1,13 @@
+#import "./components/todo.graphql"
+
+query todoList($skip: Int, $take: Int, $order: Order, $sortBy: String, $id: ID, $label: String) {
+  list(skip: $skip, take: $take, order: $order, sortBy: $sortBy, id: $id, label: $label) {
+    id
+    createdAt
+    label
+    description
+    todos {
+      ...Todo
+    }
+  }
+}

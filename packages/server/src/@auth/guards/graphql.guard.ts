@@ -18,7 +18,7 @@ export class GqlAuthGuard extends AuthGuard('jwt') {
     return req;
   }
 
-  handleRequest(err: any, user: any, info: any) {
+  handleRequest(err: never, user: never, info: Error) {
     if (info && info.name === 'TokenExpiredError')
       throw new ExpiredAccessTokenException();
 

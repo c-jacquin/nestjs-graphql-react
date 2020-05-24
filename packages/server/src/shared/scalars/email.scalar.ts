@@ -1,6 +1,8 @@
 import { Scalar, CustomScalar } from '@nestjs/graphql';
 import { Kind, ValueNode, GraphQLError } from 'graphql';
 
+import { emailRegExp } from '@app/common';
+
 @Scalar('Email')
 export class EmailScalar implements CustomScalar<string, string> {
   description = 'Email custom scalar type';
@@ -8,9 +10,7 @@ export class EmailScalar implements CustomScalar<string, string> {
   private emailRegex: RegExp;
 
   constructor() {
-    this.emailRegex = new RegExp(
-      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-    );
+    this.emailRegex = emailRegExp;
   }
 
   parseValue(value: string): string {

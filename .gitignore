@@ -1,3 +1,6 @@
+# parcel
+.parcel-cache
+
 # compiled output
 dist
 node_modules
