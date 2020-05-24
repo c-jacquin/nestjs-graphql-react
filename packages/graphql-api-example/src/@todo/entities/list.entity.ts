@@ -1,8 +1,16 @@
-import { Field, ObjectType, ID } from '@nestjs/graphql';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Field, ObjectType, ID, HideField } from '@nestjs/graphql';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 import { TodoEntity } from './todo.entity';
 import { WithDate } from 'shared';
+import { UserEntity } from '@auth/entities/user.entity';
 
 @ObjectType()
 @Entity('list')
@@ -23,4 +31,18 @@ export class ListEntity extends WithDate {
     todo => todo.parent,
   )
   todos?: TodoEntity[];
+
+  @HideField()
+  @JoinColumn({
+    name: 'userId',
+  })
+  @ManyToOne(
+    () => UserEntity,
+    user => user.lists,
+  )
+  user?: UserEntity;
+
+  @HideField()
+  @Column('varchar')
+  userId?: string;
 }

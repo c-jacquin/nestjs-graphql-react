@@ -8,10 +8,12 @@ import {
   BeforeUpdate,
   JoinColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 import { WithDate, EmailScalar as Email, Roles } from 'shared';
 import { RoleEntity } from './role.entity';
+import { ListEntity } from '@todo/entities/list.entity';
 
 const SALT = 10;
 
@@ -47,7 +49,13 @@ export class UserEntity extends WithDate {
 
   @HideField()
   @Column('varchar')
-  roleId: string;
+  roleId?: string;
+
+  @OneToMany(
+    () => ListEntity,
+    list => list.user,
+  )
+  lists?: ListEntity[];
 
   @BeforeInsert()
   async beforeInsert() {

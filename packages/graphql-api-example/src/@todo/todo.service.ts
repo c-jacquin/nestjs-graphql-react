@@ -16,10 +16,11 @@ export class TodoService {
     private readonly todoRepository: Repository<TodoEntity>,
   ) {}
 
-  async createList(data: CreateListInput) {
+  async createList(data: CreateListInput & { userId: string }) {
     const list = new ListEntity();
     list.label = data.label;
     list.description = data.description;
+    list.userId = data.userId;
 
     return this.listRepository.save(list);
   }
