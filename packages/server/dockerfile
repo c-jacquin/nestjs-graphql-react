@@ -4,7 +4,6 @@ WORKDIR /usr/src/app
 RUN apk update && apk add yarn
 
 COPY package.json .
-COPY yarn.lock .
 COPY dist dist/
 
 RUN yarn --production
