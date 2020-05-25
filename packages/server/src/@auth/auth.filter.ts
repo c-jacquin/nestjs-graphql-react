@@ -5,12 +5,12 @@ import { JwtService } from '@nestjs/jwt';
 
 import { Errors, HttpHeaders } from '@app/common';
 import { AuthService } from '@auth/auth.service';
-import { ExpiredAccessTokenException } from './expired-access-token.exception';
+import { ExpiredAccessTokenException } from './exceptions/expired-access-token.exception';
 import { IContext, Env } from 'shared';
 import { UsersService } from '@auth/users/users.service';
 
 @Catch(ExpiredAccessTokenException)
-export class ExpiredAccessTokenFilter implements GqlExceptionFilter {
+export class AuthFilter implements GqlExceptionFilter {
   constructor(
     @Inject(AuthService) private readonly authService: AuthService,
     @Inject(UsersService) private readonly usersService: UsersService,

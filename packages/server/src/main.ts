@@ -9,7 +9,7 @@ import {
 import { Logger } from 'winston';
 
 import { NodeEnv } from '@app/common';
-import { ExpiredAccessTokenFilter } from '@auth/exceptions/expired-access-token.filter';
+import { AuthFilter } from '@auth/auth.filter';
 import { AppModule } from 'app.module';
 import { rawConfig } from 'config/logger';
 import { AllExceptionsFilter } from 'error.filter';
@@ -27,12 +27,12 @@ import { Env } from 'shared';
           : false,
     });
     const config = app.get<ConfigService>(ConfigService);
-    const expiredAccessTokenFilter = app.get(ExpiredAccessTokenFilter);
+    const authFilter = app.get(AuthFilter);
     const errorFilter = app.get(AllExceptionsFilter);
     logger = app.get<Logger>(WINSTON_MODULE_PROVIDER);
 
     app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-    app.useGlobalFilters(errorFilter, expiredAccessTokenFilter);
+    app.useGlobalFilters(errorFilter, authFilter);
     app.use(helmet());
     app.enableCors();
 

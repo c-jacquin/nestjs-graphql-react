@@ -6,12 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
+import { AuthFilter } from './auth.filter';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { RolesFixture } from './fixtures/roles.fixture.service';
 import { RoleEntity } from './entities/role.entity';
 import { UserEntity } from './entities/user.entity';
-import { ExpiredAccessTokenFilter } from './exceptions/expired-access-token.filter';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UsersResolver } from './users/users.resolver';
 import { UsersService } from './users/users.service';
@@ -31,7 +31,7 @@ import { UsersService } from './users/users.service';
     RolesFixture,
     AuthService,
     AuthResolver,
-    ExpiredAccessTokenFilter,
+    AuthFilter,
     JwtStrategy,
     UsersResolver,
     UsersService,
