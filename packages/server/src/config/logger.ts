@@ -19,7 +19,7 @@ type LogLvl =
 
 export const LogLvl: Record<NodeEnv, LogLvl> = {
   [NodeEnv.STAGING]: 'warn',
-  [NodeEnv.PROD]: 'verbose',
+  [NodeEnv.PROD]: 'error',
   [NodeEnv.DEV]: 'info',
   [NodeEnv.TEST]: 'error',
   [NodeEnv.LOCAL]: 'info',
@@ -38,7 +38,7 @@ const winstonTransport: StreamTransportInstance[] = [
 //   winstonTransport.push(gcpWinstonTransport);
 
 export const rawConfig: LoggerOptions = {
-  level: LogLvl[process.env[Env.NODE_ENV]],
+  level: process.env[Env.LOG_LVL] || LogLvl[process.env[Env.NODE_ENV]],
   transports: winstonTransport,
 };
 

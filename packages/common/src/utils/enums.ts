@@ -1,9 +1,3 @@
-export enum Errors {
-  ACCESS_TOKEN_MISSING,
-  ACCESS_TOKEN_EXPIRED,
-  REFRESH_TOKEN,
-}
-
 export enum HttpHeaders {
   X_REFRESH_TOKEN = 'x-refresh-token',
   X_ACCESS_TOKEN = 'x-access-token',

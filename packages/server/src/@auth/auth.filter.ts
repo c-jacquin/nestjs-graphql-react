@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { GqlExceptionFilter, GqlArgumentsHost } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 
-import { Errors, HttpHeaders } from '@app/common';
+import { HttpHeaders } from '@app/common';
 import { AuthService } from '@auth/auth.service';
 import { ExpiredAccessTokenException } from './exceptions/expired-access-token.exception';
 import { IContext, Env } from 'shared';
@@ -58,12 +58,7 @@ export class AuthFilter implements GqlExceptionFilter {
 
       return data[fieldName];
     } catch (err) {
-      exception.code = Errors.REFRESH_TOKEN;
-      exception.message = 'Unauthorized';
-
-      res.status(exception.getStatus());
-
-      return exception;
+      return new ExpiredAccessTokenException();
     }
   }
 }

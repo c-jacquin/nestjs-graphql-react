@@ -92,6 +92,6 @@ export class AuthService {
   }
 
   async whoAmI(id: string) {
-    return this.usersService.getOne({ where: { id } });
+    return this.usersService.getOne({ where: { id }, relations: ['role'] });
   }
 }

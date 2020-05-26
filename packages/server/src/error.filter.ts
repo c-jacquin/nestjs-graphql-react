@@ -8,6 +8,7 @@ import {
   ArgumentsHost,
   ContextType,
 } from '@nestjs/common';
+import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { GqlExceptionFilter } from '@nestjs/graphql';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
@@ -27,11 +28,13 @@ export class AllExceptionsFilter implements GqlExceptionFilter {
     sendMessage = false,
   ) {
     const type = host.getType<ContextType & 'graphql'>();
+    let ctx: HttpArgumentsHost;
+    let res: Response;
 
     switch (type) {
       case 'http':
-        const ctx = host.switchToHttp();
-        const res = ctx.getResponse<Response>();
+        ctx = host.switchToHttp();
+        res = ctx.getResponse<Response>();
 
         res.status(status).send(sendMessage ? exception.message : exception);
         break;
@@ -41,6 +44,7 @@ export class AllExceptionsFilter implements GqlExceptionFilter {
   }
 
   catch(exception: Error, host: ArgumentsHost) {
+    let error: HttpException;
     const status =
       exception instanceof HttpException
         ? exception.getStatus()
@@ -53,7 +57,7 @@ export class AllExceptionsFilter implements GqlExceptionFilter {
         );
         this.logger.error(exception.stack);
 
-        const error = new InternalServerErrorException();
+        error = new InternalServerErrorException();
         this.sendResponse(host, error, status);
         break;
       case HttpStatus.NOT_FOUND:

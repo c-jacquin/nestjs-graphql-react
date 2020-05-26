@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "install": "lerna bootstrap --use-workspaces",
+    "install": "lerna bootstrap --use-workspaces && ts-node scripts/postinstall",
     "build": "lerna run build --stream",
     "lint": "lerna run lint --stream",
     "dev": "lerna run dev --stream",
@@ -17,12 +17,12 @@
     "@typescript-eslint/parser": "^2.23.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.2",
     "lerna": "^3.21.0",
     "prettier": "^1.19.1",
     "typescript": "^3.7.4"
-  }
+  },
+  "dependencies": {}
 }

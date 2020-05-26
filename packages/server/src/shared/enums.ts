@@ -1,5 +1,5 @@
 export enum Env {
-  DEBUG = 'true',
+  DEBUG = 'DEBUG',
   HOST = 'HOST',
   PORT = 'PORT',
   NODE_ENV = 'NODE_ENV',
@@ -8,6 +8,7 @@ export enum Env {
   ACCESS_TOKEN_DURATION = 'ACCESS_TOKEN_DURATION',
   ADMIN_EMAIL = 'ADMIN_EMAIL',
   ADMIN_PASS = 'ADMIN_PASS',
+  LOG_LVL = 'LOG_LVL',
   PG_USER = 'PG_USER',
   PG_PASS = 'PG_PASS',
   PG_DB = 'PG_DB',

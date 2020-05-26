@@ -10,6 +10,6 @@
     "esModuleInterop": true,
     "incremental": true
   },
-  "include": ["packages"],
+  "include": ["packages", "scripts"],
   "exclude": ["node_modules", "packages/**/dist", "packages/**/node_modules"]
 }

@@ -1,13 +1,14 @@
-import { Flex, Text, Box, Link } from 'rebass';
+import { Flex, Text, Box, Button } from 'rebass';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+
+import { useAuth, AuthActionType } from '../../context/auth';
 
 interface HeaderProps {
   title: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
-  const history = useHistory();
+  const { dispatch } = useAuth();
 
   return (
     <Flex px={2} color="white" bg="black" alignItems="center">
@@ -15,9 +16,15 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         {title}
       </Text>
       <Box mx="auto" />
-      <Link variant="nav" href="#!">
-        Profile
-      </Link>
+      <Button
+        onClick={() =>
+          dispatch({
+            type: AuthActionType.LOGOUT,
+          })
+        }
+      >
+        Logout
+      </Button>
     </Flex>
   );
 };

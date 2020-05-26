@@ -26,6 +26,6 @@ export default registerAs(
     ...(IS_LOCAL ? sqliteCpnfig : postgreConfig),
     entities: ['dist/**/*.entity.js'],
     synchronize: true,
-    logging: Boolean(process.env[Env.DEBUG]),
+    logging: process.env[Env.DEBUG] === 'true',
   }),
 );

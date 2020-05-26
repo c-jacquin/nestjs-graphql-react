@@ -1,4 +1,4 @@
-import { ObjectType, ID, Field } from '@nestjs/graphql';
+import { ObjectType, ID, Field, HideField } from '@nestjs/graphql';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { UserEntity } from './user.entity';
@@ -13,6 +13,7 @@ export class RoleEntity {
   @Column({ unique: true })
   public name: string;
 
+  @HideField()
   @OneToMany(
     () => UserEntity,
     user => user.role,

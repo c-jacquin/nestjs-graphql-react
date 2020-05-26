@@ -42,7 +42,7 @@ export class TodoService {
       relations: ['todos'],
     };
 
-    if (!!sortBy) query.order = { [sortBy]: order };
+    if (sortBy) query.order = { [sortBy]: order };
 
     return this.listRepository.find(query);
   }

@@ -26,7 +26,7 @@ export class UsersService {
       relations: ['role'],
     };
 
-    if (!!sortBy) query.order = { [sortBy]: order };
+    if (sortBy) query.order = { [sortBy]: order };
 
     return this.userRepository.find(query);
   }

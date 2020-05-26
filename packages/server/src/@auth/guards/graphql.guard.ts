@@ -1,12 +1,9 @@
-import {
-  Injectable,
-  ExecutionContext,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
 import { ExpiredAccessTokenException } from '@auth/exceptions/expired-access-token.exception';
+import { MissingRefreshTokenException } from '@auth/exceptions/missing-access-token.exception';
 import { IContext } from 'shared';
 
 @Injectable()
@@ -23,7 +20,7 @@ export class GqlAuthGuard extends AuthGuard('jwt') {
       throw new ExpiredAccessTokenException();
 
     if (info && info.name === 'Error' && info.message === 'No auth token')
-      throw new UnauthorizedException(info);
+      throw new MissingRefreshTokenException();
 
     if (info) throw info;
 

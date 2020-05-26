@@ -3,23 +3,28 @@ import { Label, Input } from '@rebass/forms';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-// import { emailRegExp } from '@app/common';
+import { emailRegExp } from '@app/common';
 
-export type LoginFormValue = {
+export interface LoginFormValue {
   email: string;
   password: string;
-};
+}
 
 export interface LoginFormProps {
-  onSubmit: (formValue: LoginFormValue) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSubmit: ({ variables: LoginFormValue }) => void | Promise<any>;
   loading?: boolean;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ loading, onSubmit }) => {
-  const { register, errors, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm();
 
   return (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)} py={3}>
+    <Box
+      as="form"
+      onSubmit={handleSubmit(variables => onSubmit({ variables }))}
+      py={3}
+    >
       <Box width={1 / 2} px={2}>
         <Label htmlFor="email">Email</Label>
         <Input
@@ -28,7 +33,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ loading, onSubmit }) => {
           type="email"
           ref={register({
             required: 'Enter your email !',
-            // pattern: emailRegExp,
+            pattern: emailRegExp,
           })}
         />
       </Box>

@@ -4,7 +4,7 @@ import { ConfigModuleOptions } from '@nestjs/config/dist/interfaces';
 import { NodeEnv } from '@app/common';
 import { Env } from 'shared';
 import graphqlConfig from 'config/graphql';
-import loggerConfig from 'config/logger';
+import loggerConfig, { LogLvl } from 'config/logger';
 import typeormConfig from 'config/typeorm';
 import jwtConfig from 'config/jwt';
 
@@ -12,9 +12,10 @@ export const configSchema = Joi.object({
   [Env.NODE_ENV]: Joi.string()
     .valid(...Object.values(NodeEnv))
     .required(),
-  [Env.JWT_SECRET]: Joi.string().required(),
   [Env.HOST]: Joi.string().default('0.0.0.0'),
-  [Env.PORT]: Joi.number().default(3000),
+  [Env.PORT]: Joi.number().required(),
+  [Env.LOG_LVL]: Joi.string().default(LogLvl[process.env[Env.NODE_ENV]]),
+  [Env.JWT_SECRET]: Joi.string().required(),
   [Env.ACCESS_TOKEN_DURATION]: Joi.string().default('360s'),
   [Env.REFRESH_TOKEN_DURATION]: Joi.string().default('360d'),
   [Env.ADMIN_EMAIL]: Joi.string()
@@ -25,7 +26,7 @@ export const configSchema = Joi.object({
     not: NodeEnv.LOCAL,
     then: Joi.string().required(),
   }),
-  [Env.HOST]: Joi.alternatives().conditional(Env.NODE_ENV, {
+  [Env.PG_HOST]: Joi.alternatives().conditional(Env.NODE_ENV, {
     not: NodeEnv.LOCAL,
     then: Joi.string().required(),
   }),
@@ -48,6 +49,7 @@ const rawOptions: ConfigModuleOptions = {
   ignoreEnvFile: process.env[Env.NODE_ENV] !== NodeEnv.LOCAL,
   validationSchema: configSchema,
   load: [graphqlConfig, loggerConfig, typeormConfig, jwtConfig],
+  envFilePath: ['.env.local'],
 };
 
 export default rawOptions;
