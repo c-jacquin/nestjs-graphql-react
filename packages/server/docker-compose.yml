@@ -1,36 +1,37 @@
-version: '2'
-services:
-  PostgreSQL:
-    container_name: PostgreSQL
-    image: postgres:10-alpine
-    ports:
-      - '5531:5432'
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=toor
-      - POSTGRES_DB=mydb
-    volumes:
-      - ./docker-volumes/postgresql:/var/lib/postgresql
+version: '3.5'
 
-  myapi:
-    build:
-      context: ./
-    container_name: MyApi
-    restart: always
-    environment:
-      - NODE_ENV=production
-      - JWT_SECRET=secret
-      - PORT=3000
-      - ACCESS_TOKEN_DURATION=360s
-      - REFRESH_TOKEN_DURATION=360d
-      - PG_USER=root
-      - PG_PASS=toor
-      - PG_DB=mydb
-      - PG_PORT=5432
-      - PG_HOST=PostgreSQL
-      - ADMIN_EMAIL=admin@admin.com
-      - ADMIN_PASS=admin
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    env_file:
+      - .database.${NODE_ENV}.env
+    volumes:
+       - postgres:/data/postgres/${NODE_ENV}
     ports:
-      - '3000:3000'
-    depends_on:
-      - 'PostgreSQL'
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+    postgres:
+    pgadmin:

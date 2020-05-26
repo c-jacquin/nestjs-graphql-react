@@ -10,8 +10,9 @@
     "build": "nest build",
     "start": "node dist/main",
     "dev": "NODE_ENV=local nest start --debug --watch",
+    "db": "NODE_ENV=local docker-compose up",
+    "db:test": "NODE_ENV=test docker-compose up",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-  
     "test": "NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest --watch",
     "test:cov": "NODE_ENV=test jest --coverage",
@@ -29,6 +30,7 @@
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/terminus": "^7.0.1",
     "@nestjs/typeorm": "^7.0.0",
     "apollo-server-express": "^2.13.1",
     "bcrypt": "^4.0.1",
@@ -44,7 +46,6 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
-    "sqlite3": "^4.2.0",
     "typeorm": "^0.2.25",
     "winston": "^3.2.1"
   },

@@ -16,7 +16,7 @@ import { Response } from 'express';
 
 @Injectable()
 @Catch()
-export class AllExceptionsFilter implements GqlExceptionFilter {
+export class ErrorFilter implements GqlExceptionFilter {
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}

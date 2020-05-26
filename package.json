@@ -10,6 +10,8 @@
     "build": "lerna run build --stream",
     "lint": "lerna run lint --stream",
     "dev": "lerna run dev --stream",
+    "db": "lerna run db --stream",
+    "db:test": "lerna run db:test --stream",
     "debug": "lerna run debug --stream"
   },
   "husky": {

@@ -22,34 +22,22 @@ export const configSchema = Joi.object({
     .email()
     .required(),
   [Env.ADMIN_PASS]: Joi.string().required(),
-  [Env.PG_DB]: Joi.alternatives().conditional(Env.NODE_ENV, {
-    not: NodeEnv.LOCAL,
-    then: Joi.string().required(),
-  }),
-  [Env.PG_HOST]: Joi.alternatives().conditional(Env.NODE_ENV, {
-    not: NodeEnv.LOCAL,
-    then: Joi.string().required(),
-  }),
-  [Env.PG_PASS]: Joi.alternatives().conditional(Env.NODE_ENV, {
-    not: NodeEnv.LOCAL,
-    then: Joi.string().required(),
-  }),
-  [Env.PG_PORT]: Joi.alternatives().conditional(Env.NODE_ENV, {
-    not: NodeEnv.LOCAL,
-    then: Joi.number().required(),
-  }),
-  [Env.PG_USER]: Joi.alternatives().conditional(Env.NODE_ENV, {
-    not: NodeEnv.LOCAL,
-    then: Joi.string().required(),
-  }),
+  [Env.POSTGRES_DB]: Joi.string().required(),
+  [Env.POSTGRES_HOST]: Joi.string().required(),
+  [Env.POSTGRES_PASSWORD]: Joi.string().required(),
+  [Env.POSTGRES_PORT]: Joi.number().required(),
+  [Env.POSTGRES_USER]: Joi.string().required(),
 });
+
+const currentEnv = process.env[Env.NODE_ENV] as NodeEnv;
+const envWithEnvFiles = [NodeEnv.TEST, NodeEnv.DEV];
 
 const rawOptions: ConfigModuleOptions = {
   isGlobal: true,
-  ignoreEnvFile: process.env[Env.NODE_ENV] !== NodeEnv.LOCAL,
+  ignoreEnvFile: envWithEnvFiles.includes(currentEnv),
   validationSchema: configSchema,
   load: [graphqlConfig, loggerConfig, typeormConfig, jwtConfig],
-  envFilePath: ['.env.local'],
+  envFilePath: [`.env.${currentEnv}`, `.database.${currentEnv}.env`],
 };
 
 export default rawOptions;

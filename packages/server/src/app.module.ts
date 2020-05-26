@@ -1,15 +1,17 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { Module, ValidationPipe, HttpModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WinstonModule } from 'nest-winston';
+import { TerminusModule } from '@nestjs/terminus';
 
 import { AuthModule } from '@auth/auth.module';
 import { TodoModule } from '@todo/todo.module';
 import configOptions from 'config/config';
-import { AllExceptionsFilter } from 'error.filter';
+import { ErrorFilter } from 'error.filter';
 import { EmailScalar } from 'shared';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
@@ -29,13 +31,15 @@ import { EmailScalar } from 'shared';
       useFactory: (config: ConfigService) => config.get('logger'),
       inject: [ConfigService],
     }),
+    HttpModule,
+    TerminusModule,
     AuthModule,
     TodoModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [
     EmailScalar,
-    AllExceptionsFilter,
+    ErrorFilter,
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,

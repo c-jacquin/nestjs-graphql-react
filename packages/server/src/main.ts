@@ -12,7 +12,7 @@ import { NodeEnv } from '@app/common';
 import { AuthFilter } from '@auth/auth.filter';
 import { AppModule } from 'app.module';
 import { rawConfig } from 'config/logger';
-import { AllExceptionsFilter } from 'error.filter';
+import { ErrorFilter } from 'error.filter';
 import { Env } from 'shared';
 
 (async () => {
@@ -28,12 +28,13 @@ import { Env } from 'shared';
     });
     const config = app.get<ConfigService>(ConfigService);
     const authFilter = app.get(AuthFilter);
-    const errorFilter = app.get(AllExceptionsFilter);
+    const errorFilter = app.get(ErrorFilter);
     logger = app.get<Logger>(WINSTON_MODULE_PROVIDER);
 
     app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
     app.useGlobalFilters(errorFilter, authFilter);
     app.use(helmet());
+    app.enableShutdownHooks();
     app.enableCors();
 
     await app.listen(config.get(Env.PORT), config.get(Env.HOST), () => {
