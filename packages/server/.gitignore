@@ -2,8 +2,11 @@
 /coverage
 /.nyc_output
 
-# Local sqlite database
-db.sqlite
-
 # Generated graphql schema
 schema.gql
+
+# compodocs
+docs
+
+# env
+.database.local.env
