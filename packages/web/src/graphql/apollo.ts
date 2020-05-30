@@ -9,15 +9,15 @@ import errorMiddleware from './middlewares/error';
 import loggerMiddleware from './middlewares/log';
 import { ApolloMiddlewareDependencies } from './types';
 
-const scheme = {
+const schemeMapper = {
   [NodeEnv.DEV]: 'http://',
   [NodeEnv.PROD]: 'http://',
 };
 
+const scheme = schemeMapper[process.env.NODE_ENV];
+
 const httpLink = createHttpLink({
-  uri: `${scheme[process.env.NODE_ENV]}${process.env.HOST}:${
-    process.env.PORT
-  }/graphql`,
+  uri: `${scheme}${process.env.HOST}:${process.env.PORT}/graphql`,
 });
 
 function configureApollo(dependencies: ApolloMiddlewareDependencies) {

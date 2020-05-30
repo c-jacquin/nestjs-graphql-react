@@ -4,11 +4,11 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Box } from 'rebass';
 
-import { useAuth, AuthActionType } from '../../context/auth';
+import { AuthActionType, useAuth } from '../../context/auth';
 import { Routes } from '../../config/enums';
-import WHO_AM_I_QUERY from '../whoAmI.graphql';
+import WHO_AM_I_QUERY from '../app/who-am-i.query.graphql';
 
-import LOGIN_MUTATION from './login.graphql';
+import LOGIN_MUTATION from './login.mutation.graphql';
 import LoginForm from './components/login-form';
 
 const LoginPage: React.FC = () => {

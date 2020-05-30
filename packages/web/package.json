@@ -10,7 +10,6 @@
     "build": "parcel build src/index.html"
   },
   "dependencies": {
-    "@ant-design/aliyun-theme": "^0.0.4",
     "@apollo/react-hooks": "^3.1.5",
     "@app/common": "0.0.0",
     "@emotion/core": "^10.0.28",

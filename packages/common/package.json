@@ -2,11 +2,13 @@
   "name": "@app/common",
   "version": "0.0.0",
   "description": "common files like enum, types, helpers",
-  "main": "dist/index.js",
   "license": "UNLICENSED",
   "private": true,
+  "main": "dist/index.js",
   "scripts": {
+    "install": "tsc",
     "dev": "tsc",
     "build": "tsc"
-  }
+  },
+  "devDependencies": {}
 }

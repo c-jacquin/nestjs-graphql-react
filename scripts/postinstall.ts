@@ -3,22 +3,24 @@ import { promisify } from 'util';
 import path from 'path';
 import glob from 'glob';
 
-import logger from './lib/logger';
+import logger from '@app-scripts/lib/logger';
 
-const BLACKLIST = ['common'];
+const BLACKLIST = ['common', 'web'];
 
 (async () => {
   const [packages, envFiles] = await Promise.all([
     promisify(glob)('./packages/*'),
     promisify(glob)('./scripts/env/*.env'),
   ]);
-  const availableEnv = envFiles.map(
-    envPath =>
-      envPath
-        .split('/')
-        .pop()
-        .split('.')[0],
+  const availableEnv = envFiles.map(envPath =>
+    envPath
+      .split('/')
+      .pop()
+      .split('.')
+      .shift(),
   );
+
+  packages.push('/root');
 
   try {
     await Promise.all(
@@ -29,13 +31,16 @@ const BLACKLIST = ['common'];
         .map(packagePath => packagePath.split('/').pop())
         .filter(packageName => !BLACKLIST.includes(packageName))
         .map(packageName => ({
-          packagePath: path.resolve(
-            __dirname,
-            '..',
-            'packages',
-            packageName,
-            '.env.local',
-          ),
+          packagePath:
+            packageName === 'root'
+              ? path.resolve(__dirname, '..', '.env.local')
+              : path.resolve(
+                  __dirname,
+                  '..',
+                  'packages',
+                  packageName,
+                  '.env.local',
+                ),
           packageName,
         }))
         .map(async ({ packageName, packagePath }) => {
@@ -44,7 +49,7 @@ const BLACKLIST = ['common'];
               path.join(__dirname, 'env', `${packageName}.env`),
               packagePath,
             );
-            logger.info(`${packageName}.env created in ${packagePath}`);
+            logger.info(`.env.local created in ${packagePath}`);
           }
         }),
     );

@@ -1,32 +1,59 @@
 {
-  "name": "boilerplate",
+  "name": "app",
   "private": true,
   "license": "UNLICENSED",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "install": "lerna bootstrap --use-workspaces && ts-node scripts/postinstall",
+    "install": "lerna bootstrap --use-workspaces",
+    "postinstall": "ts-node -r tsconfig-paths/register scripts/postinstall",
     "build": "lerna run build --stream",
+    "dev": "ts-node -r tsconfig-paths/register scripts/dev",
+    "g": "nest generate",
+    "pgadmin": "ts-node -r tsconfig-paths/register scripts/pgadmin",
+    "pgadmin:close": "ts-node -r tsconfig-paths/register scripts/pgadmin-close",
+    "commit": "git-cz",
+    "docs": "lerna run docs --stream",
     "lint": "lerna run lint --stream",
-    "dev": "lerna run dev --stream",
-    "db": "lerna run db --stream",
-    "db:test": "lerna run db:test --stream",
-    "debug": "lerna run debug --stream"
+    "test": "lerna run test --stream",
+    "test:cov": "lerna run test:cov --stream",
+    "test:e2e": "ts-node -r tsconfig-paths/register scripts/e2e",
+    "test:debug": "lerna run test:debug --stream"
   },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged"
     }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
       "eslint . --fix"
     ]
   },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@nestjs/cli": "^7.2.0",
+    "@nestjs/schematics": "^7.0.0",
+    "@types/death": "^1.1.0",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
     "@typescript-eslint/parser": "^2.23.0",
+    "chalk": "^4.0.0",
+    "commitizen": "^4.1.2",
+    "cz-conventional-changelog": "^3.2.0",
+    "death": "^1.1.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.3",
@@ -36,7 +63,8 @@
     "lerna": "^3.21.0",
     "lint-staged": "^10.2.6",
     "prettier": "^1.19.1",
+    "ts-node": "^8.10.1",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.7.4"
-  },
-  "dependencies": {}
+  }
 }

@@ -1,11 +1,9 @@
 import React from 'react';
 
 import authReducer, {
+  AuthDependencies,
   AuthDispatch,
   AuthState,
-  AuthActionType,
-  AuthAction,
-  AuthDependencies,
 } from './reducer';
 import { StorageKey } from '../../config/enums';
 import useLogger from '../../hooks/logger';
@@ -70,11 +68,5 @@ function useAuth() {
   };
 }
 
-export {
-  AuthProvider,
-  useAuth,
-  AuthState,
-  AuthDispatch,
-  AuthActionType,
-  AuthAction,
-};
+export { AuthProvider, useAuth };
+export * from './reducer';

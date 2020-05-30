@@ -11,3 +11,8 @@ export enum NodeEnv {
   PROD = 'production',
   TEST = 'test',
 }
+
+export enum Roles {
+  ADMIN = 'ADMIN',
+  NORMAL = 'NORMAL',
+}

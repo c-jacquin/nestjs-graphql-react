@@ -1,7 +1,0 @@
-fragment Todo on TodoEntity {
-  id
-  label
-  description
-  completed
-  createdAt
-}

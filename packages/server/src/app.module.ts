@@ -1,49 +1,72 @@
-import { Module, ValidationPipe, HttpModule } from '@nestjs/common';
+import {
+  HttpModule,
+  Module,
+  INestApplication,
+  ValidationPipe,
+  CanActivate,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_PIPE } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { WinstonModule } from 'nest-winston';
 import { TerminusModule } from '@nestjs/terminus';
+import helmet from 'helmet';
+import { WinstonModule } from 'nest-winston';
 
-import { AuthModule } from '@auth/auth.module';
-import { TodoModule } from '@todo/todo.module';
-import configOptions from 'config/config';
-import { ErrorFilter } from 'error.filter';
-import { EmailScalar } from 'shared';
-import { HealthController } from './health/health.controller';
+import configOptions, {
+  GRAPHQL_CONFIG_KEY,
+  ORM_CONFIG_KEY,
+  LOGGER_CONFIG_KEY,
+} from '_config/config';
+import { AppController } from 'app.controller';
+import { AuthModule } from 'auth/auth.module';
+import { JwtFilter } from 'auth/jwt/jwt.filter';
+import { JwtGuard } from 'auth/jwt/jwt.guard';
+import { CommonModule } from 'common/common.module';
+import { RolesGuard } from 'common/roles/roles.guard';
 
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (config: ConfigService) => config.get('typeorm'),
-      inject: [ConfigService],
-    }),
-    GraphQLModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (config: ConfigService) => config.get('graphql'),
-      inject: [ConfigService],
-    }),
-    ConfigModule.forRoot(configOptions),
-    WinstonModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (config: ConfigService) => config.get('logger'),
-      inject: [ConfigService],
-    }),
+    AuthModule,
+    CommonModule,
+
     HttpModule,
     TerminusModule,
-    AuthModule,
-    TodoModule,
+    ConfigModule.forRoot(configOptions),
+    GraphQLModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => config.get(GRAPHQL_CONFIG_KEY),
+      inject: [ConfigService],
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => config.get(ORM_CONFIG_KEY),
+      inject: [ConfigService],
+    }),
+    WinstonModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => config.get(LOGGER_CONFIG_KEY),
+      inject: [ConfigService],
+    }),
   ],
-  controllers: [HealthController],
-  providers: [
-    EmailScalar,
-    ErrorFilter,
-    {
-      provide: APP_PIPE,
-      useClass: ValidationPipe,
-    },
-  ],
+  controllers: [AppController],
 })
 export class AppModule {}
+
+export function prepareApp(app: INestApplication) {
+  const roleGuard = app.get(RolesGuard);
+  const jwtFilter = app.get(JwtFilter);
+  const jwtGuard = app.get(JwtGuard);
+
+  const guards: CanActivate[] = [jwtGuard];
+
+  if (roleGuard) guards.push(roleGuard);
+
+  app.useGlobalFilters(jwtFilter);
+  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalGuards(...guards);
+  app.use(helmet());
+  app.enableShutdownHooks();
+  app.enableCors();
+
+  return app;
+}

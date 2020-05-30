@@ -11,12 +11,12 @@ const errorMiddleware: ApolloMiddleware = ({ logger, session, storage }) =>
         switch (message) {
           case Errors.ACCESS_TOKEN_MISSING:
           case Errors.ACCESS_TOKEN_EXPIRED:
-            logger.debug(`Error: ${message} in ${path[0]}`);
+            logger.debug(`Error: ${message} ${path && `in ${path[0]}`}`);
             storage.removeItem(StorageKey.ACCESS_TOKEN);
             session.removeItem(StorageKey.REFRESH_TOKEN);
             break;
           default:
-            logger.warn(`Error: ${message} in ${path[0]}`);
+            logger.warn(`Error: ${message} ${path && `in ${path[0]}`}`);
             break;
         }
       });

@@ -1,7 +1,7 @@
-import { Flex, Text, Box, Button } from 'rebass';
+import { Box, Button, Flex, Text } from 'rebass';
 import React from 'react';
 
-import { useAuth, AuthActionType } from '../../context/auth';
+import { AuthActionType, useAuth } from '../../context/auth';
 
 interface HeaderProps {
   title: string;
