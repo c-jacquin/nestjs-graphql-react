@@ -16,5 +16,5 @@
     }
   },
   "include": ["packages", "scripts"],
-  "exclude": ["node_modules", "packages/**/dist", "packages/**/node_modules"]
+  "exclude": ["node_modules", "packages/**/dist", "packages/**/node_modules", ".eslintrc.js"]
 }
