@@ -19,7 +19,8 @@
     "test": "lerna run test --stream",
     "test:cov": "lerna run test:cov --stream",
     "test:e2e": "ts-node -r tsconfig-paths/register scripts/e2e",
-    "test:debug": "lerna run test:debug --stream"
+    "test:debug": "lerna run test:debug --stream",
+    "release": "standard-version"
   },
   "husky": {
     "hooks": {
@@ -67,6 +68,7 @@
     "lerna": "^3.22.0",
     "lint-staged": "^10.2.7",
     "prettier": "^2.0.5",
+    "standard-version": "^8.0.0",
     "ts-node": "^8.10.2",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.9.3"
