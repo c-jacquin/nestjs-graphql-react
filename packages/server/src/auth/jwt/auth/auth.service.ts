@@ -23,7 +23,7 @@ class JwtAuthService implements AuthService {
     const user = await this.usersService.getOne({
       where: { email },
       select: ['id', 'count', 'password'],
-      relations: ['role'],
+      relations: ['roleEntities'],
     });
 
     if (user && (await user.authenticate(pass))) {
@@ -44,7 +44,10 @@ class JwtAuthService implements AuthService {
   }
 
   async whoAmI(id: string) {
-    return this.usersService.getOne({ where: { id } });
+    return this.usersService.getOne({
+      where: { id },
+      relations: ['roleEntities'],
+    });
   }
 
   async resetPassword(id: string, password: string, newPassword: string) {

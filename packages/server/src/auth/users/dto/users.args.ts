@@ -1,6 +1,7 @@
-import { ArgsType, Field, ID, Int } from '@nestjs/graphql';
-import { IsEmail, IsNumber, IsOptional, IsUUID } from 'class-validator';
+import { ArgsType, Field, ID } from '@nestjs/graphql';
+import { IsEmail, IsOptional, IsUUID, IsEnum } from 'class-validator';
 
+import { Roles } from '@app/common';
 import { PaginationArgs } from 'common/_utils';
 
 @ArgsType()
@@ -15,8 +16,8 @@ export class UsersArgs extends PaginationArgs {
   @Field(() => String, { nullable: true })
   readonly email?: string;
 
-  @IsNumber()
+  @IsEnum(Roles)
   @IsOptional()
-  @Field(() => Int, { nullable: true })
-  role?: number;
+  @Field(() => Roles, { nullable: true })
+  roles?: Roles;
 }

@@ -5,15 +5,17 @@ import {
   BeforeUpdate,
   Column,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+  AfterLoad,
 } from 'typeorm';
 
 import { Roles } from '@app/common';
+import { RoleEntity } from 'auth/users/roles/roles.entity';
+import { UserCreateInput } from 'auth/users/dto/user-create.input';
 import { WithDate } from 'common/_utils';
 import { EmailScalar as Email } from 'common/email/email.scalar';
-import { RoleEntity } from 'auth/users/roles/roles.entity';
-import { UserCreateInput } from './dto/user-create.input';
 
 const SALT = 10;
 
@@ -26,7 +28,7 @@ export class UserEntity extends WithDate {
     if (data) {
       if (data.email) this.email = data.email;
       if (data.password) this.password = data.password;
-      if (data.role) this.role = data.role;
+      if (data.roles) this.roleEntities = data.roles.map(id => ({ id }));
     }
   }
 
@@ -46,24 +48,45 @@ export class UserEntity extends WithDate {
   @Column('integer', { default: 0 })
   count?: number;
 
-  @ManyToOne(
-    () => RoleEntity,
-    role => role.users,
-  )
-  @Field(() => Roles)
-  @Column('varchar', { default: Roles.NORMAL, length: 30 })
-  role?: Roles;
+  @HideField()
+  @ManyToMany(() => RoleEntity)
+  @JoinTable()
+  roleEntities: RoleEntity[];
+
+  @Field(() => [Roles])
+  roles: Roles[];
+
+  private mapRolesEntities() {
+    this.roleEntities = this.roles.map(id => ({ id }));
+    delete this.roles;
+  }
+
+  private mapRoles() {
+    this.roles = this.roleEntities.map(({ id }) => id);
+    delete this.roleEntities;
+  }
+
+  private async hashPassword() {
+    this.password = await hash(this.password, SALT);
+  }
 
   @BeforeInsert()
   async beforeInsert() {
-    this.password = await hash(this.password, SALT);
+    if (this.roles) this.mapRolesEntities();
+    else this.roleEntities = [{ id: Roles.NORMAL }];
+
+    await this.hashPassword();
   }
 
   @BeforeUpdate()
   async beforeUpdate() {
-    if (this.password) {
-      this.password = await hash(this.password, SALT);
-    }
+    if (this.roles) this.mapRolesEntities();
+    if (this.password) await this.hashPassword();
+  }
+
+  @AfterLoad()
+  formatRoles() {
+    if (this.roleEntities?.length > 0) this.mapRoles();
   }
 
   authenticate(pass: string) {
@@ -71,6 +94,6 @@ export class UserEntity extends WithDate {
   }
 
   hasRole(roles: Roles[]) {
-    return !!roles.find(item => item === this.role);
+    return !!roles.find(item => this.roles.includes(item));
   }
 }

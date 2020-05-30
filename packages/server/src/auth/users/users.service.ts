@@ -1,10 +1,11 @@
-import { FindManyOptions, FindOneOptions, Repository, Entity } from 'typeorm';
+import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 
-import { UserCreateInput } from 'auth/users/dto/user-create.input';
 import { UserEntity } from 'auth/users/users.entity';
 import { UsersArgs } from 'auth/users/dto/users.args';
+import { UserCreateInput } from 'auth/users/dto/user-create.input';
+import { Roles } from '@app/common';
 
 @Injectable()
 export class UsersService {
@@ -37,6 +38,7 @@ export class UsersService {
 
   async update(id: string, data: Partial<UserEntity>) {
     const user = new UserEntity(data);
+
     if (data.count) user.count = data.count;
 
     return this.userRepository.update(id, user);
@@ -46,7 +48,10 @@ export class UsersService {
     return this.userRepository.delete(id);
   }
 
-  async count(options?: FindManyOptions<UserEntity>) {
-    return this.userRepository.count(options);
+  async countByRole(role: Roles) {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .leftJoin('user.roleEntities', 'role', 'role.id = :role', { role })
+      .getCount();
   }
 }

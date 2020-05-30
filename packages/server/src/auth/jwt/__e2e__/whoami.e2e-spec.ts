@@ -23,7 +23,7 @@ function expectWhoami(data: { whoAmI: UserEntity }) {
   expect(typeof data.whoAmI.id).toMatch('string');
   expect(data.whoAmI).toMatchObject({
     email: adminUser.email,
-    role: Roles.ADMIN,
+    roles: [Roles.ADMIN],
   });
 }
 

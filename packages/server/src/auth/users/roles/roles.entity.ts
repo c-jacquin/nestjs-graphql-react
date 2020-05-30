@@ -1,5 +1,5 @@
-import { Field, HideField, ObjectType, ID } from '@nestjs/graphql';
-import { Entity, OneToMany, PrimaryColumn, Column } from 'typeorm';
+import { Field, ObjectType, ID } from '@nestjs/graphql';
+import { Entity, PrimaryColumn, Column, ManyToMany } from 'typeorm';
 
 import { Roles } from '@app/common';
 import { UserEntity } from 'auth/users/users.entity';
@@ -7,21 +7,19 @@ import { UserEntity } from 'auth/users/users.entity';
 @ObjectType()
 @Entity('role')
 export class RoleEntity {
+  constructor(id?: Roles) {
+    this.id = id;
+  }
+
   @Field(() => ID)
   @PrimaryColumn('varchar', { enum: Roles, unique: true })
-  public name?: string;
+  public id?: Roles;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Column('varchar', { length: '200', nullable: true })
   public description?: string;
 
-  @HideField()
-  @OneToMany(
-    () => UserEntity,
-    user => user.role,
-    {
-      cascade: true,
-    },
-  )
+  @Field(() => [UserEntity], { nullable: true })
+  @ManyToMany(() => UserEntity)
   public users?: UserEntity[];
 }

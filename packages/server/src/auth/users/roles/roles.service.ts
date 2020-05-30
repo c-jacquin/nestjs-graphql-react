@@ -21,8 +21,7 @@ export class RolesService {
   }
 
   create(role: Roles) {
-    const roleEntity = new RoleEntity();
-    roleEntity.name = role;
+    const roleEntity = new RoleEntity(role);
 
     return this.roleRepository.save(roleEntity);
   }

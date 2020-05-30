@@ -40,8 +40,8 @@ export class LocalRolesGuard implements RolesGuard {
 
     const user = await this.usersService.getOne({
       where: { id: req.user.id },
-      relations: ['role'],
-      select: ['role', 'id'],
+      relations: ['roleEntities'],
+      select: ['id'],
     });
 
     return user.hasRole(roles);

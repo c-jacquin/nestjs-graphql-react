@@ -3,7 +3,7 @@ query whoAmI {
   whoAmI {
     id
     email
-    role
+    roles
   }
 }
 `;

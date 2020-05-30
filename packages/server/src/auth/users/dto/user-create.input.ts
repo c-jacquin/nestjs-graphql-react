@@ -5,7 +5,7 @@ import {
   Matches,
   MaxLength,
   IsOptional,
-  IsEnum,
+  IsArray,
 } from 'class-validator';
 
 import { passwordRegExp, Roles } from '@app/common';
@@ -26,7 +26,7 @@ export class UserCreateInput {
   readonly password: string;
 
   @IsOptional()
-  @IsEnum(Roles)
-  @Field(() => Roles, { nullable: true })
-  readonly role?: Roles;
+  @IsArray()
+  @Field(() => [Roles], { nullable: true })
+  readonly roles?: Roles[];
 }

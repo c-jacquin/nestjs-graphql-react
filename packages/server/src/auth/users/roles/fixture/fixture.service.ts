@@ -22,7 +22,7 @@ export class RolesFixture {
           Object.keys(Roles).map(async role => {
             const newRole = await this.roleService.create(role as Roles);
 
-            this.logger.info(`Role ${newRole.name} created !`);
+            this.logger.info(`Role ${newRole.id} created !`);
           }),
         );
     } catch (err) {

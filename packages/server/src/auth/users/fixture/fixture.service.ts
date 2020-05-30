@@ -23,15 +23,13 @@ export class UsersFixture implements IFixture {
 
       this.logger.info('start running users fixture');
 
-      const adminCount = await this.usersService.count({
-        where: { role: Roles.ADMIN },
-      });
+      const adminCount = await this.usersService.countByRole(Roles.ADMIN);
 
       if (adminCount === 0) {
         await this.usersService.create({
           email: this.config.get(Env.ADMIN_EMAIL),
           password: this.config.get(Env.ADMIN_PASS),
-          role: Roles.ADMIN,
+          roles: [Roles.ADMIN],
         });
 
         this.logger.info('admin user created');
