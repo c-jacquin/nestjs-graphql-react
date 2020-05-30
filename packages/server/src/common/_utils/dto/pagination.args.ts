@@ -10,8 +10,8 @@ export abstract class PaginationArgs {
   readonly take?: number;
 
   @Field(() => Order, { nullable: true })
-  readonly order?: Order = Order.DESC;
+  readonly order?: Order;
 
   @Field(() => String, { nullable: true })
-  readonly sortBy?: string = 'createdAt';
+  readonly sortBy?: string;
 }

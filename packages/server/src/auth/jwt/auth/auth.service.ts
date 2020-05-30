@@ -7,7 +7,7 @@ import { TokenService } from 'auth/jwt/token/token.service';
 import { AuthService } from 'auth/auth.service';
 import { SignUpArgs } from 'auth/dto/sign-up.args';
 
-type SimpleUser = Pick<UserEntity, 'email' | 'id' | 'count'>;
+type SimpleUser = Pick<UserEntity, 'email' | 'id' | 'count' | 'roles'>;
 
 @Injectable()
 class JwtAuthService implements AuthService {

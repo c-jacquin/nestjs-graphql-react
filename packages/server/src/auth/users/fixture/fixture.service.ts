@@ -5,16 +5,16 @@ import { Logger } from 'winston';
 
 import { Roles } from '@app/common';
 import { UsersService } from 'auth/users/users.service';
-import { IFixture, Env } from 'common/_utils';
 import { RolesFixture } from 'auth/users/roles/fixture/fixture.service';
+import { IFixture, Env } from 'common/_utils';
 
 @Injectable()
 export class UsersFixture implements IFixture {
   constructor(
-    private readonly usersService: UsersService,
-    private readonly rolesFixture: RolesFixture,
-    private readonly config: ConfigService,
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    protected readonly usersService: UsersService,
+    protected readonly rolesFixture: RolesFixture,
+    protected readonly config: ConfigService,
+    @Inject(WINSTON_MODULE_PROVIDER) protected readonly logger: Logger,
   ) {}
 
   async exec() {
@@ -37,7 +37,7 @@ export class UsersFixture implements IFixture {
     } catch (err) {
       this.logger.error('something fail while creating admin user');
       this.logger.error(err.name);
-      if (err.message) this.logger.error(err.message);
+      if (err.message) this.logger.error(err.messagwe);
       if (err.stack) this.logger.error(err.stack);
     }
   }

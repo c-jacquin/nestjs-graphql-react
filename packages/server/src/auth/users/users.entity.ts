@@ -92,8 +92,4 @@ export class UserEntity extends WithDate {
   authenticate(pass: string) {
     return compare(pass, this.password);
   }
-
-  hasRole(roles: Roles[]) {
-    return !!roles.find(item => this.roles.includes(item));
-  }
 }

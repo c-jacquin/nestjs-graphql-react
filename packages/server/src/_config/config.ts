@@ -1,5 +1,6 @@
 import Joi from '@hapi/joi';
 import { ConfigModuleOptions } from '@nestjs/config/dist/interfaces';
+import path from 'path';
 
 import { NodeEnv } from '@app/common';
 import { Env } from 'common/_utils';
@@ -38,9 +39,9 @@ const rawOptions: ConfigModuleOptions = {
   validationSchema: configSchema,
   load: [graphqlConfig, loggerConfig, ormConfig],
   envFilePath: [
-    `.env.${currentEnv}`,
-    `../../.env.${currentEnv}`,
-    `.database.local.env`,
+    path.resolve(process.cwd(), `.env.${currentEnv}`),
+    path.resolve(process.cwd(), '..', '..', `.env.${currentEnv}`),
+    path.resolve(process.cwd(), `.database.local.env`),
   ],
 };
 

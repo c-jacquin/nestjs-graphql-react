@@ -21,12 +21,14 @@ import { AppController } from 'app.controller';
 import { AuthModule } from 'auth/auth.module';
 import { JwtFilter } from 'auth/jwt/jwt.filter';
 import { JwtGuard } from 'auth/jwt/jwt.guard';
+import { UsersModule } from 'auth/users/users.module';
 import { CommonModule } from 'common/common.module';
 import { RolesGuard } from 'common/roles/roles.guard';
 
 @Module({
   imports: [
     AuthModule,
+    UsersModule,
     CommonModule,
 
     HttpModule,

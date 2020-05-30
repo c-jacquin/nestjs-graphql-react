@@ -6,7 +6,7 @@ import { SignInModel } from 'auth/dto/sign-in.model';
 import { UserEntity } from 'auth/users/users.entity';
 import { Env } from 'common/_utils';
 
-type SimpleUser = Pick<UserEntity, 'email' | 'id' | 'count'>;
+type SimpleUser = Pick<UserEntity, 'email' | 'id' | 'count' | 'roles'>;
 
 @Injectable()
 export class TokenService {
@@ -23,13 +23,16 @@ export class TokenService {
   }
 
   generateAccessToken(user: SimpleUser) {
-    return this.jwt.sign({ sub: user.id });
+    return this.jwt.sign({ sub: { id: user.id, roles: user.roles } });
   }
 
   generateRefreshToken(user: SimpleUser) {
     const payload = {
       count: user.count,
-      sub: user.id,
+      sub: {
+        id: user.id,
+        count: user.count,
+      },
     };
     const options = {
       expiresIn: this.config.get(Env.REFRESH_TOKEN_DURATION),

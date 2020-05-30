@@ -25,12 +25,12 @@ export class JwtFilter implements GqlExceptionFilter {
     const { fieldName } = gqlHost.getInfo();
 
     try {
-      const { sub, count } = await this.jwtService.verifyAsync(
+      const { sub } = await this.jwtService.verifyAsync(
         req.headers[HttpHeaders.X_REFRESH_TOKEN] as string,
       );
-      const user = await this.usersService.getOne({ where: { id: sub } });
+      const user = await this.usersService.getOne({ where: { id: sub.id } });
       // Check if the user has reset his pawword recently
-      if (count !== user.count) {
+      if (sub.count !== user.count) {
         throw new Error();
       }
 

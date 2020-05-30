@@ -26,12 +26,14 @@ export class UsersService {
     };
 
     if (sortBy) query.order = { [sortBy]: order };
+    query.relations = ['roleEntities'];
 
     return this.userRepository.find(query);
   }
 
   async create(data: UserCreateInput) {
     const user = new UserEntity(data);
+    if (!data.roles) user.roles = [Roles.NORMAL];
 
     return this.userRepository.save(user);
   }
