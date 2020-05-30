@@ -28,7 +28,7 @@ export class UserEntity extends WithDate {
     if (data) {
       if (data.email) this.email = data.email;
       if (data.password) this.password = data.password;
-      if (data.roles) this.roleEntities = data.roles.map(id => ({ id }));
+      if (data.roles) this.roleEntities = data.roles.map((id) => ({ id }));
     }
   }
 
@@ -57,7 +57,7 @@ export class UserEntity extends WithDate {
   roles: Roles[];
 
   private mapRolesEntities() {
-    this.roleEntities = this.roles.map(id => ({ id }));
+    this.roleEntities = this.roles.map((id) => ({ id }));
     delete this.roles;
   }
 

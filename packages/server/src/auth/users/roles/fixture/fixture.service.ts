@@ -19,7 +19,7 @@ export class RolesFixture {
 
       if (rolesCount === 0)
         await Promise.all(
-          Object.keys(Roles).map(async role => {
+          Object.keys(Roles).map(async (role) => {
             const newRole = await this.roleService.create(role as Roles);
 
             this.logger.info(`Role ${newRole.id} created !`);

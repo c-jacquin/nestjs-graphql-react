@@ -10,7 +10,7 @@ const loggerMiddleware: ApolloMiddleware = ({ logger }) =>
       operation.variables,
     );
 
-    return forward(operation).map(response => {
+    return forward(operation).map((response) => {
       logger.debug(`<== `, response.data);
 
       return response;

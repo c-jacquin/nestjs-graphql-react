@@ -17,7 +17,7 @@ const authMiddleware: ApolloMiddleware = ({ logger, session, storage }) =>
       },
     }));
 
-    return forward(operation).map(response => {
+    return forward(operation).map((response) => {
       const context = operation.getContext();
       const {
         response: { headers },

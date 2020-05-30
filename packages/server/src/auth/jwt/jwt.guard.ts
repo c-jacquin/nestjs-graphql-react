@@ -2,6 +2,7 @@ import { ExecutionContext, Injectable, ContextType } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthGuard as PassportAuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 
 import { IContext } from 'common/_utils';
 import { Strategy, restrictMetaKey } from 'auth/auth.decorator';
@@ -9,10 +10,10 @@ import {
   ExpiredAccessTokenException,
   MissingRefreshTokenException,
 } from 'auth/jwt/jwt.exception';
-import { Request } from 'express';
 
 @Injectable()
 export class JwtGuard extends PassportAuthGuard('jwt') {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private handler: Function;
   constructor(private readonly reflector: Reflector) {
     super();

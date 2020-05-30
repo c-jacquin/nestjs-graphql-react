@@ -110,9 +110,7 @@ describe('e2e: [Auth Jwt] => resetPassword mutation (GRAPHQL)', () => {
     it('should return a missing token error', async () => {
       const {
         body: { errors },
-      } = await sendBasicRequest(app)
-        .send({ query: whoAmIQuery })
-        .expect(200);
+      } = await sendBasicRequest(app).send({ query: whoAmIQuery }).expect(200);
 
       expectMissingToken(errors);
     });

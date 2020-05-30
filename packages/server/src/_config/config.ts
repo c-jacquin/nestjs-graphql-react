@@ -18,9 +18,7 @@ export const configSchema = Joi.object({
   [Env.JWT_SECRET]: Joi.string().required(),
   [Env.ACCESS_TOKEN_DURATION]: Joi.string().default('360s'),
   [Env.REFRESH_TOKEN_DURATION]: Joi.string().default('360d'),
-  [Env.ADMIN_EMAIL]: Joi.string()
-    .email()
-    .required(),
+  [Env.ADMIN_EMAIL]: Joi.string().email().required(),
   [Env.ADMIN_PASS]: Joi.string().required(),
   [Env.POSTGRES_DB]: Joi.string().required(),
   [Env.POSTGRES_MULTIPLE_DATABASES]: Joi.string(),

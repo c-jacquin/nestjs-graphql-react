@@ -26,7 +26,7 @@ export async function bootstapE2eApp({
   await nestApp.init();
 
   if (http)
-    await new Promise(res => expressApp.listen(Number(PORT), HOST, res));
+    await new Promise((res) => expressApp.listen(Number(PORT), HOST, res));
 
   return {
     nestApp,

@@ -22,7 +22,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ loading, onSubmit }) => {
   return (
     <Box
       as="form"
-      onSubmit={handleSubmit(variables => onSubmit({ variables }))}
+      onSubmit={handleSubmit((variables) => onSubmit({ variables }))}
       py={3}
     >
       <Box width={1 / 2} px={2}>
