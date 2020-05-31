@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function usePreviousValue<T>(value: T): T {
+function usePreviousValue<T>(value: T): T {
   const refPrevious = React.useRef(value);
   const refCurrent = React.useRef(value);
 
@@ -14,3 +14,5 @@ export function usePreviousValue<T>(value: T): T {
 
   return refPrevious.current;
 }
+
+export default usePreviousValue;

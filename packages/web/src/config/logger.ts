@@ -3,7 +3,7 @@ import BrowserConsole from 'winston-transport-browserconsole';
 
 const { combine, simple, label } = format;
 
-function createLogger(name: string) {
+function createLogger(name: Loggers) {
   return winston.createLogger({
     transports: [
       new BrowserConsole({

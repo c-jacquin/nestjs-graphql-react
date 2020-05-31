@@ -9,7 +9,7 @@ import authReducer, {
 import { StorageKey, Routes } from '../../config/enums';
 import useLogger from '../../hooks/logger';
 import { Loggers } from '../../config/logger';
-import { usePreviousValue } from '../../hooks/usePreviousValue';
+import usePreviousValue from '../../hooks/usePreviousValue';
 
 const AuthStateContext = React.createContext<AuthState | undefined>(undefined);
 
@@ -19,16 +19,18 @@ const AuthDispatchContext = React.createContext<AuthDispatch | undefined>(
 
 interface AuthProviderProps {
   dependencies: Omit<AuthDependencies, 'logger'> & { history: History };
+  initialState?: AuthState;
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({
   children,
   dependencies: { session, storage, apolloClient, history },
+  initialState,
 }) => {
   const logger = useLogger(Loggers.AUTH);
   const [state, dispatch] = React.useReducer(
     authReducer({ session, storage, logger, apolloClient }),
-    {
+    initialState || {
       accessToken: storage.getItem(StorageKey.ACCESS_TOKEN),
       refreshToken: session.getItem(StorageKey.REFRESH_TOKEN),
     },
