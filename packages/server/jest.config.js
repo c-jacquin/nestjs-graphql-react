@@ -41,6 +41,7 @@ const commonConfig = {
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
+  setupFilesAfterEnv: ['../jest.setup.js'],
 };
 
 const unitConfig = {

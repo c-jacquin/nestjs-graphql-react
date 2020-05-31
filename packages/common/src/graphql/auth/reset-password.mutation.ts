@@ -1,9 +1,10 @@
 import gql from 'graphql-tag';
 
-const { loc } = gql`
+export const RESET_PASSWORD_MUTATION = gql`
   mutation($password: String!, $newPassword: String!) {
     resetPassword(password: $password, newPassword: $newPassword)
   }
 `;
 
-export const resetPasswordMutation = loc.source.body;
+export const RESET_PASSWORD_MUTATION_RAW =
+  RESET_PASSWORD_MUTATION.loc.source.body;

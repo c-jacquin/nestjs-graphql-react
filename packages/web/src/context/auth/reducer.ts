@@ -4,6 +4,7 @@ import { Logger } from 'winston';
 
 import { StorageKey } from '../../config/enums';
 import createLogger, { Loggers } from '../../config/logger';
+import { IStorage } from '../../core/dependencies';
 import { Action, Reducer } from '../type';
 
 export interface AuthState {
@@ -19,8 +20,8 @@ export type AuthDispatch = (action: AuthAction) => void;
 
 export interface AuthDependencies {
   logger: Logger;
-  storage: Storage;
-  session: Storage;
+  storage: IStorage;
+  session: IStorage;
   apolloClient: ApolloClient<NormalizedCacheObject>;
 }
 

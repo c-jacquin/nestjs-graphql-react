@@ -2,15 +2,15 @@ import { useQuery } from '@apollo/react-hooks';
 import React, { useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Box } from 'rebass';
+import { Box } from 'theme-ui';
 
+import { WHO_AM_I_QUERY } from '@app/common';
 import Header from '../../components/header';
 import { useAuth } from '../../context/auth';
 import { Routes } from '../../config/enums';
 import HomePage from './home';
-import WHO_AM_I_QUERY from './who-am-i.query.graphql';
 
-const Layout: React.FC = () => {
+const RestrictedApp: React.FC = () => {
   const { data, loading, error } = useQuery(WHO_AM_I_QUERY);
   const { authState } = useAuth();
   const history = useHistory();
@@ -43,4 +43,4 @@ const Layout: React.FC = () => {
   );
 };
 
-export default Layout;
+export default RestrictedApp;

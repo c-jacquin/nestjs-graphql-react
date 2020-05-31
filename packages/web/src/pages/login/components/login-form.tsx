@@ -1,9 +1,8 @@
-import { Box, Button } from 'rebass';
-import { Input, Label } from '@rebass/forms';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { Box, Button, Label, Input, Alert, Spinner, Flex } from 'theme-ui';
 
-import { emailRegExp } from '@app/common';
+import { emailRegExp, passwordRegExp } from '@app/common';
 
 export interface LoginFormValue {
   email: string;
@@ -17,38 +16,57 @@ export interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ loading, onSubmit }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, errors } = useForm();
 
   return (
     <Box
+      title="login-form"
       as="form"
       onSubmit={handleSubmit((variables) => onSubmit({ variables }))}
       py={3}
     >
-      <Box width={1 / 2} px={2}>
+      <Box px={2} mt={2}>
         <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           name="email"
           type="email"
           ref={register({
-            required: 'Enter your email !',
+            required: 'Email isrequired !',
             pattern: emailRegExp,
           })}
         />
+        {errors.email && <Alert>{errors.email.message}</Alert>}
       </Box>
-      <Box width={1 / 2} px={2}>
+      <Box px={2} mt={2}>
         <Label htmlFor="password">Password</Label>
         <Input
           id="password"
           name="password"
           type="password"
-          ref={register({ required: 'password is required' })}
+          ref={register({
+            required: 'password is required',
+            pattern: passwordRegExp,
+          })}
         />
+        {errors.password && <Alert>{errors.password.message}</Alert>}
       </Box>
-      <Box px={2} ml="auto">
-        <Button>{loading ? 'loading...' : 'submit'}</Button>
-      </Box>
+      <Flex
+        px={2}
+        mt={2}
+        sx={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}
+      >
+        <Button
+          sx={{
+            width: '100px',
+          }}
+        >
+          {loading ? <Spinner size={12} /> : 'submit'}
+        </Button>
+      </Flex>
     </Box>
   );
 };

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const { loc } = gql`
+export const WHO_AM_I_QUERY = gql`
   query whoAmI {
     whoAmI {
       id
@@ -10,4 +10,4 @@ const { loc } = gql`
   }
 `;
 
-export const whoAmIQuery = loc.source.body;
+export const WHO_AM_I_QUERY_RAW = WHO_AM_I_QUERY.loc.source.body;

@@ -2,13 +2,13 @@ import { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { LOGIN_MUTATION_RAW } from '@app/common';
 import { bootstapE2eApp } from '__e2e__/helpers/bootstrap';
 import { expectUnauthorized } from '__e2e__/helpers/http-errors.expect';
-import { loginMutation } from 'auth/__e2e__/graphql/login.mutation';
-import { adminUser } from 'auth/jwt/__e2e__/helpers/users';
+import { adminUser } from 'auth/__e2e__/helpers/users';
 import { UserEntity } from 'auth/users/users.entity';
 import { UsersFixture } from 'auth/users/fixture/fixture.service';
-import { sendBasicRequest } from 'auth/__e2e__/helpers/request';
+import { sendBasicRequest } from '__e2e__/helpers/request';
 
 describe('Auth graphql Resolver with a jwt strategy (e2e)', () => {
   describe('e2e: [Auth] => login mutation (GRAPHQL)', () => {
@@ -37,7 +37,7 @@ describe('Auth graphql Resolver with a jwt strategy (e2e)', () => {
           body: { data },
         } = await sendBasicRequest(app)
           .send({
-            query: loginMutation,
+            query: LOGIN_MUTATION_RAW,
             variables: adminUser,
           })
           .expect(200);
@@ -54,7 +54,7 @@ describe('Auth graphql Resolver with a jwt strategy (e2e)', () => {
           body: { errors },
         } = await sendBasicRequest(app)
           .send({
-            query: loginMutation,
+            query: LOGIN_MUTATION_RAW,
             variables: {
               email: 'johnson',
               password: 'jayzon',

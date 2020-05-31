@@ -2,21 +2,20 @@ import { INestApplication } from '@nestjs/common';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import request from 'supertest';
 
-import { HttpHeaders, Roles } from '@app/common';
+import { HttpHeaders, Roles, WHO_AM_I_QUERY_RAW } from '@app/common';
 import { bootstapE2eApp } from '__e2e__/helpers/bootstrap';
-import { whoAmIQuery } from 'auth/__e2e__/graphql/who-am-i.query';
 import { login } from 'auth/__e2e__/helpers/login';
 import {
   generateOutdatedAccessToken,
   generateOutdatedRefreshToken,
-} from 'auth/jwt/__e2e__/helpers/token';
-import { expectMissingToken } from 'auth/jwt/__e2e__/helpers/token-errors.expect';
-import { adminUser } from 'auth/jwt/__e2e__/helpers/users';
+} from 'auth/__e2e__/helpers/token';
+import { expectMissingToken } from 'auth/__e2e__/helpers/token-errors.expect';
+import { adminUser } from 'auth/__e2e__/helpers/users';
 import { UserEntity } from 'auth/users/users.entity';
 import { UsersFixture } from 'auth/users/fixture/fixture.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { sendBasicRequest } from 'auth/__e2e__/helpers/request';
+import { sendBasicRequest } from '__e2e__/helpers/request';
 
 function expectWhoami(data: { whoAmI: UserEntity }) {
   expect(data).toHaveProperty('whoAmI');
@@ -63,7 +62,7 @@ describe('e2e: [Auth Jwt] => whoami query (GRAPHQL)', () => {
     it('should return a user object', async () => {
       const {
         body: { data },
-      } = await loggedInRequest.send({ query: whoAmIQuery }).expect(200);
+      } = await loggedInRequest.send({ query: WHO_AM_I_QUERY_RAW }).expect(200);
 
       expectWhoami(data);
     });
@@ -73,7 +72,9 @@ describe('e2e: [Auth Jwt] => whoami query (GRAPHQL)', () => {
     it('should return a missing token error', async () => {
       const {
         body: { errors },
-      } = await sendBasicRequest(app).send({ query: whoAmIQuery }).expect(200);
+      } = await sendBasicRequest(app)
+        .send({ query: WHO_AM_I_QUERY_RAW })
+        .expect(200);
 
       expectMissingToken(errors);
     });
@@ -96,7 +97,7 @@ describe('e2e: [Auth Jwt] => whoami query (GRAPHQL)', () => {
           body: { data },
         } = await loggedInRequest
           .set(HttpHeaders.AUTHORIZATION, generateOutdatedAccessToken())
-          .send({ query: whoAmIQuery })
+          .send({ query: WHO_AM_I_QUERY_RAW })
           .expect(200);
 
         expectWhoami(data);
@@ -110,7 +111,7 @@ describe('e2e: [Auth Jwt] => whoami query (GRAPHQL)', () => {
         } = await sendBasicRequest(app)
           .set(HttpHeaders.X_REFRESH_TOKEN, generateOutdatedRefreshToken())
           .set(HttpHeaders.AUTHORIZATION, generateOutdatedAccessToken())
-          .send({ query: whoAmIQuery })
+          .send({ query: WHO_AM_I_QUERY_RAW })
           .expect(200);
 
         expectMissingToken(errors);

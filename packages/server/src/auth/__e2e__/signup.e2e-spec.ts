@@ -2,12 +2,12 @@ import { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { SIGNUP_MUTATION_RAW } from '@app/common';
 import { bootstapE2eApp } from '__e2e__/helpers/bootstrap';
 import { expectHasError } from '__e2e__/helpers/http-errors.expect';
-import { signupMutation } from 'auth/__e2e__/graphql/signup.mutation';
-import { normalUser } from 'auth/jwt/__e2e__/helpers/users';
+import { normalUser } from 'auth/__e2e__/helpers/users';
 import { UserEntity } from 'auth/users/users.entity';
-import { sendBasicRequest } from 'auth/__e2e__/helpers/request';
+import { sendBasicRequest } from '__e2e__/helpers/request';
 
 describe('e2e: [Auth Jwt] => signup mutaion (GRAPHQL)', () => {
   let app: INestApplication;
@@ -33,7 +33,7 @@ describe('e2e: [Auth Jwt] => signup mutaion (GRAPHQL)', () => {
       const {
         body: { data },
       } = await sendBasicRequest(app)
-        .send({ query: signupMutation, variables: normalUser })
+        .send({ query: SIGNUP_MUTATION_RAW, variables: normalUser })
         .expect(200);
 
       const user = await userRepository.findOne({ email: normalUser.email });
@@ -52,7 +52,7 @@ describe('e2e: [Auth Jwt] => signup mutaion (GRAPHQL)', () => {
       const {
         body: { errors },
       } = await sendBasicRequest(app)
-        .send({ query: signupMutation })
+        .send({ query: SIGNUP_MUTATION_RAW })
         .expect(400);
 
       expectHasError(errors);
@@ -65,7 +65,7 @@ describe('e2e: [Auth Jwt] => signup mutaion (GRAPHQL)', () => {
         body: { errors },
       } = await sendBasicRequest(app)
         .send({
-          query: signupMutation,
+          query: SIGNUP_MUTATION_RAW,
           variables: { email: 'foo.ff.com', password: 'EsdfSE@"/55"sfd4' },
         })
         .expect(400);
@@ -79,7 +79,7 @@ describe('e2e: [Auth Jwt] => signup mutaion (GRAPHQL)', () => {
       const {
         body: { errors },
       } = await sendBasicRequest(app).send({
-        query: signupMutation,
+        query: SIGNUP_MUTATION_RAW,
         variables: { email: 'foo@foo.com', password: '1234' },
       });
       // .expect(400);

@@ -53,7 +53,7 @@ class JwtAuthService implements AuthService {
   async resetPassword(id: string, password: string, newPassword: string) {
     const user = await this.usersService.getOne({ where: { id } });
 
-    if (!user.authenticate(password)) throw new UnauthorizedException();
+    if (!(await user.authenticate(password))) throw new UnauthorizedException();
 
     const { affected } = await this.usersService.update(id, {
       password: newPassword,

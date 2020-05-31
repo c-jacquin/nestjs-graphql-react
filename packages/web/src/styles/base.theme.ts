@@ -1,3 +1,5 @@
+import { Theme } from 'theme-ui';
+
 const heading = {
   color: 'text',
   fontFamily: 'heading',
@@ -5,7 +7,7 @@ const heading = {
   fontWeight: 'heading',
 };
 
-export const base = {
+export const base: Theme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fonts: {
     body:

@@ -1,14 +1,17 @@
 import 'setimmediate';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createBrowserHistory } from 'history';
 
-import App, { AppDependencies } from './App';
+import App from './App';
 import createLogger, { Loggers } from './config/logger';
+import { AppDependencies } from './core/dependencies';
 import configureApollo from './graphql/apollo';
 
 const dependencies: AppDependencies = {
   storage: localStorage,
   session: sessionStorage,
+  history: createBrowserHistory(),
   apolloClient: configureApollo({
     storage: localStorage,
     session: sessionStorage,

@@ -36,9 +36,6 @@
   "lint-staged": {
     "packages/**/src/**/*.{ts,tsx}": [
       "eslint --fix"
-    ],
-    "packages/web/**/*.graphql": [
-      "eslint --fix --ext .graphql"
     ]
   },
   "config": {

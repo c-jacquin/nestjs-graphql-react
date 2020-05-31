@@ -5,15 +5,14 @@ import request from 'supertest';
 import { Repository } from 'typeorm';
 import { compose, toLower, prop, sortWith, descend } from 'ramda';
 
-import { Roles } from '@app/common';
+import { Roles, GET_USERS_QUERY_RAW } from '@app/common';
 import { bootstapE2eApp } from '__e2e__/helpers/bootstrap';
 import { expectUnauthorized } from '__e2e__/helpers/http-errors.expect';
 import { login } from 'auth/__e2e__/helpers/login';
-import { sendBasicRequest } from 'auth/__e2e__/helpers/request';
-import { adminUser, normalUser } from 'auth/jwt/__e2e__/helpers/users';
+import { sendBasicRequest } from '__e2e__/helpers/request';
+import { adminUser, normalUser } from 'auth/__e2e__/helpers/users';
 import { UserEntity } from 'auth/users/users.entity';
 import { UsersFixture } from 'auth/users/fixture/fixture.service';
-import { getUsersQuery } from 'auth/users/__e2e__/graphql/users.query';
 import { UsersFakerFixture } from 'auth/users/fixture/fixture.service.faker';
 import { Order } from 'common/_utils';
 
@@ -54,7 +53,9 @@ describe('e2e: [Auth users] => getUsers query (GRAPHQL)', () => {
     it('should return a list of 11 user object', async () => {
       const {
         body: { data },
-      } = await loggedInRequest.send({ query: getUsersQuery }).expect(200);
+      } = await loggedInRequest
+        .send({ query: GET_USERS_QUERY_RAW })
+        .expect(200);
 
       expect(data.getUsers.length).toBe(11);
     });
@@ -64,7 +65,10 @@ describe('e2e: [Auth users] => getUsers query (GRAPHQL)', () => {
         const {
           body: { data },
         } = await loggedInRequest
-          .send({ query: getUsersQuery, variables: { skip: 10, take: 3 } })
+          .send({
+            query: GET_USERS_QUERY_RAW,
+            variables: { skip: 10, take: 3 },
+          })
           .expect(200);
 
         expect(data.getUsers.length).toBe(1);
@@ -74,7 +78,7 @@ describe('e2e: [Auth users] => getUsers query (GRAPHQL)', () => {
         const {
           body: { data },
         } = await loggedInRequest
-          .send({ query: getUsersQuery, variables: { skip: 2, take: 9 } })
+          .send({ query: GET_USERS_QUERY_RAW, variables: { skip: 2, take: 9 } })
           .expect(200);
 
         expect(data.getUsers.length).toBe(9);
@@ -87,7 +91,7 @@ describe('e2e: [Auth users] => getUsers query (GRAPHQL)', () => {
           body: { data: baseData },
         } = await loggedInRequest
           .send({
-            query: getUsersQuery,
+            query: GET_USERS_QUERY_RAW,
           })
           .expect(200);
 
@@ -96,7 +100,7 @@ describe('e2e: [Auth users] => getUsers query (GRAPHQL)', () => {
           body: { data },
         } = await preparedRequest
           .send({
-            query: getUsersQuery,
+            query: GET_USERS_QUERY_RAW,
             variables: { sortBy: 'email', order: Order.DESC },
           })
           .expect(200);
@@ -116,7 +120,7 @@ describe('e2e: [Auth users] => getUsers query (GRAPHQL)', () => {
       const {
         body: { errors },
       } = await sendBasicRequest(app)
-        .send({ query: getUsersQuery })
+        .send({ query: GET_USERS_QUERY_RAW })
         .expect(200);
 
       expectUnauthorized(errors);
@@ -135,7 +139,9 @@ describe('e2e: [Auth users] => getUsers query (GRAPHQL)', () => {
     it('should return an unAuthorized error', async () => {
       const {
         body: { errors },
-      } = await loggedInRequest.send({ query: getUsersQuery }).expect(200);
+      } = await loggedInRequest
+        .send({ query: GET_USERS_QUERY_RAW })
+        .expect(200);
 
       expectUnauthorized(errors);
     });

@@ -7,35 +7,50 @@
   "scripts": {
     "dev": "parcel src/index.html --open --port 1234",
     "lint": "eslint \"src/**/*.{ts,tsx,graphql}\" --fix",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html",
+    "test": "NODE_ENV=test jest",
+    "test:watch": "NODE_ENV=test jest --watch",
+    "test:cov": "NODE_ENV=test jest --coverage"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "@app/common": "0.0.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
-    "@rebass/forms": "^4.0.6",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
+    "emotion-normalize": "^10.1.0",
     "graphql": "^15.0.0",
-    "parcel": "^2.0.0-alpha.3.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^5.7.2",
     "react-router-dom": "^5.2.0",
     "react-toastify": "^6.0.5",
-    "rebass": "^4.0.7",
     "setimmediate": "^1.0.5",
-    "theme-ui": "^0.4.0-alpha.3",
+    "theme-ui": "^0.3.1",
     "winston": "^3.2.1",
     "winston-transport-browserconsole": "^1.0.5"
   },
   "devDependencies": {
+    "@apollo/react-testing": "^3.1.4",
+    "@testing-library/jest-dom": "^5.9.0",
+    "@testing-library/react": "^10.0.4",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
-    "@types/rebass": "^4.0.6"
+    "@types/react-test-renderer": "^16.9.2",
+    "@types/theme-ui": "^0.3.2",
+    "jest": "^26.0.1",
+    "jest-chain": "^1.1.5",
+    "jest-css-modules": "^2.1.0",
+    "jest-extended": "^0.11.5",
+    "jest-ts-auto-mock": "^1.0.11",
+    "parcel": "^2.0.0-alpha.3.2",
+    "ts-auto-mock": "^2.1.22",
+    "ts-jest": "^26.0.0",
+    "ttypescript": "^1.5.10",
+    "waait": "^1.0.5"
   }
 }

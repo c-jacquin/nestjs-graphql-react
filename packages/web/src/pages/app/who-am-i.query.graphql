@@ -1,7 +1,0 @@
-query whoAmI {
-  whoAmI {
-    id
-    email
-    roles
-  }
-}

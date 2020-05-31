@@ -3,16 +3,14 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import request from 'supertest';
 import { Repository } from 'typeorm';
 
+import { RESET_PASSWORD_MUTATION_RAW } from '@app/common';
 import { bootstapE2eApp } from '__e2e__/helpers/bootstrap';
-import { resetPasswordMutation } from 'auth/__e2e__/graphql/reset-password.mutation';
-import { whoAmIQuery } from 'auth/__e2e__/graphql/who-am-i.query';
 import { login } from 'auth/__e2e__/helpers/login';
-import { expectMissingToken } from 'auth/jwt/__e2e__/helpers/token-errors.expect';
-import { adminUser } from 'auth/jwt/__e2e__/helpers/users';
+import { adminUser } from 'auth/__e2e__/helpers/users';
 import { UserEntity } from 'auth/users/users.entity';
 import { UsersFixture } from 'auth/users/fixture/fixture.service';
 import { expectHasError } from '__e2e__/helpers/http-errors.expect';
-import { sendBasicRequest } from 'auth/__e2e__/helpers/request';
+import { sendBasicRequest } from '__e2e__/helpers/request';
 
 describe('e2e: [Auth Jwt] => resetPassword mutation (GRAPHQL)', () => {
   let app: INestApplication;
@@ -53,7 +51,7 @@ describe('e2e: [Auth Jwt] => resetPassword mutation (GRAPHQL)', () => {
           body: { data },
         } = await loggedInRequest
           .send({
-            query: resetPasswordMutation,
+            query: RESET_PASSWORD_MUTATION_RAW,
             variables: {
               password: adminUser.password,
               newPassword: GOOD_PASSWORD,
@@ -79,7 +77,7 @@ describe('e2e: [Auth Jwt] => resetPassword mutation (GRAPHQL)', () => {
           body: { errors },
         } = await loggedInRequest
           .send({
-            query: resetPasswordMutation,
+            query: RESET_PASSWORD_MUTATION_RAW,
             variables: {
               password: adminUser.password,
               newPassword: BAD_PASSWORD,
@@ -97,9 +95,27 @@ describe('e2e: [Auth Jwt] => resetPassword mutation (GRAPHQL)', () => {
           body: { errors },
         } = await loggedInRequest
           .send({
-            query: resetPasswordMutation,
+            query: RESET_PASSWORD_MUTATION_RAW,
           })
           .expect(400);
+
+        expectHasError(errors);
+      });
+    });
+
+    describe('when sending a bad password and a correct new one', () => {
+      it('should return with error', async () => {
+        const {
+          body: { errors },
+        } = await loggedInRequest
+          .send({
+            query: RESET_PASSWORD_MUTATION_RAW,
+            variables: {
+              password: 'foo',
+              newPassword: GOOD_PASSWORD,
+            },
+          })
+          .expect(200);
 
         expectHasError(errors);
       });
@@ -110,9 +126,11 @@ describe('e2e: [Auth Jwt] => resetPassword mutation (GRAPHQL)', () => {
     it('should return a missing token error', async () => {
       const {
         body: { errors },
-      } = await sendBasicRequest(app).send({ query: whoAmIQuery }).expect(200);
+      } = await sendBasicRequest(app)
+        .send({ query: RESET_PASSWORD_MUTATION_RAW })
+        .expect(400);
 
-      expectMissingToken(errors);
+      expectHasError(errors);
     });
   });
 });

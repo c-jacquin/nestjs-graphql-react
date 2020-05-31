@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const { loc } = gql`
+export const LOGIN_MUTATION = gql`
   mutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       accessToken
@@ -9,4 +9,4 @@ const { loc } = gql`
   }
 `;
 
-export const loginMutation = loc.source.body;
+export const LOGIN_MUTATION_RAW = LOGIN_MUTATION.loc.source.body;

@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
-const { loc } = gql`
+export const SIGNUP_MUTATION = gql`
   mutation($email: Email!, $password: String!) {
     signup(email: $email, password: $password)
   }
 `;
 
-export const signupMutation = loc.source.body;
+export const SIGNUP_MUTATION_RAW = SIGNUP_MUTATION.loc.source.body;

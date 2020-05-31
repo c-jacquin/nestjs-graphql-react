@@ -1,8 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 
-import { HttpHeaders } from '@app/common';
-import { sendBasicRequest } from 'auth/__e2e__/helpers/request';
-import { loginMutation } from 'auth/__e2e__/graphql/login.mutation';
+import { HttpHeaders, LOGIN_MUTATION_RAW } from '@app/common';
+import { sendBasicRequest } from '__e2e__/helpers/request';
 import { SignInArgs } from 'auth/dto/sign-in.args';
 
 export async function login(app: INestApplication, user: SignInArgs) {
@@ -14,7 +13,7 @@ export async function login(app: INestApplication, user: SignInArgs) {
     },
   } = await sendBasicRequest(app)
     .send({
-      query: loginMutation,
+      query: LOGIN_MUTATION_RAW,
       variables: user,
     })
     .expect(200);

@@ -1,8 +1,8 @@
-// import { Theme } from 'theme-ui';
+import { Theme } from 'theme-ui';
 
 import baseTheme from './base.theme';
 
-const theme = {
+const theme: Theme = {
   ...baseTheme,
 };
 
