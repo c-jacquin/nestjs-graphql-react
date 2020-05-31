@@ -6,14 +6,14 @@ import { AuthProvider } from './context/auth';
 import { AppDependencies } from './core/dependencies';
 import Layout from './pages/layout';
 
-const App: React.FC<AppDependencies> = ({ history, ...dependencies }) => {
+const App: React.FC<AppDependencies> = ({ ...dependencies }) => {
   return (
     <ApolloProvider client={dependencies.apolloClient}>
-      <AuthProvider dependencies={dependencies}>
-        <Router history={history}>
+      <Router history={dependencies.history}>
+        <AuthProvider dependencies={dependencies}>
           <Layout />
-        </Router>
-      </AuthProvider>
+        </AuthProvider>
+      </Router>
     </ApolloProvider>
   );
 };

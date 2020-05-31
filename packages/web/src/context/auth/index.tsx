@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { History } from 'history';
 
 import authReducer, {
   AuthDependencies,
   AuthDispatch,
   AuthState,
 } from './reducer';
-import { StorageKey } from '../../config/enums';
+import { StorageKey, Routes } from '../../config/enums';
 import useLogger from '../../hooks/logger';
 import { Loggers } from '../../config/logger';
+import { usePreviousValue } from '../../hooks/usePreviousValue';
 
 const AuthStateContext = React.createContext<AuthState | undefined>(undefined);
 
@@ -16,12 +18,12 @@ const AuthDispatchContext = React.createContext<AuthDispatch | undefined>(
 );
 
 interface AuthProviderProps {
-  dependencies: Omit<AuthDependencies, 'logger'>;
+  dependencies: Omit<AuthDependencies, 'logger'> & { history: History };
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({
   children,
-  dependencies: { session, storage, apolloClient },
+  dependencies: { session, storage, apolloClient, history },
 }) => {
   const logger = useLogger(Loggers.AUTH);
   const [state, dispatch] = React.useReducer(
@@ -31,6 +33,13 @@ const AuthProvider: React.FC<AuthProviderProps> = ({
       refreshToken: session.getItem(StorageKey.REFRESH_TOKEN),
     },
   );
+  const previousToken = usePreviousValue(state.accessToken);
+
+  useEffect(() => {
+    if (previousToken && !state.accessToken) {
+      history.replace(Routes.LOGIN);
+    }
+  }, [state.accessToken, history, previousToken]);
 
   return (
     <AuthStateContext.Provider value={state}>
