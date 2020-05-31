@@ -1,8 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Button, Label, Input, Alert, Spinner, Flex } from 'theme-ui';
+import { Box, Button, Label, Input, Spinner, Flex } from 'theme-ui';
 
-import { emailRegExp, passwordRegExp } from '@app/common';
+import { emailRegExp } from '@app/common';
+import FormErrors from '../../../components/forms/errors';
 
 export interface LoginFormValue {
   email: string;
@@ -32,11 +33,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ loading, onSubmit }) => {
           name="email"
           type="email"
           ref={register({
-            required: 'Email isrequired !',
+            required: true,
             pattern: emailRegExp,
           })}
         />
-        {errors.email && <Alert>{errors.email.message}</Alert>}
       </Box>
       <Box px={2} mt={2}>
         <Label htmlFor="password">Password</Label>
@@ -45,11 +45,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ loading, onSubmit }) => {
           name="password"
           type="password"
           ref={register({
-            required: 'password is required',
-            pattern: passwordRegExp,
+            required: true,
           })}
         />
-        {errors.password && <Alert>{errors.password.message}</Alert>}
       </Box>
       <Flex
         px={2}
@@ -67,6 +65,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ loading, onSubmit }) => {
           {loading ? <Spinner size={12} /> : 'submit'}
         </Button>
       </Flex>
+      <FormErrors
+        errors={errors}
+        messages={{
+          email: { required: 'Email is required', pattern: 'Invalid email' },
+          password: { required: 'Password is required' },
+        }}
+      />
     </Box>
   );
 };

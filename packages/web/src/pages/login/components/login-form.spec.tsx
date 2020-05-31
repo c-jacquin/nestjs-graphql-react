@@ -65,31 +65,6 @@ describe('[login page] login form components', () => {
     });
   });
 
-  describe('when filled with invalid password and submit', () => {
-    const badPassUser = { email: 'bar@foo.com', password: 'foo' };
-
-    it('should not call the onSubmit props', async () => {
-      const submitSpy = jest.spyOn(props, 'onSubmit');
-
-      await act(async () => {
-        render(<LoginForm {...props} />);
-
-        const emailInput = screen.getByLabelText('Email');
-        const passwordInput = screen.getByLabelText('Password');
-
-        emailInput.setAttribute('value', badPassUser.email);
-        passwordInput.setAttribute('value', badPassUser.password);
-
-        const form = screen.getByTitle('login-form');
-        fireEvent(form, new Event('submit'));
-
-        await wait(0);
-      });
-
-      expect(submitSpy).not.toHaveBeenCalled();
-    });
-  });
-
   describe('when submit empty', () => {
     it('should not call the onSubmit props', async () => {
       const submitSpy = jest.spyOn(props, 'onSubmit');

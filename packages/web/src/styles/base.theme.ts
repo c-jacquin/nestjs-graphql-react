@@ -26,11 +26,14 @@ export const base: Theme = {
     heading: 1.125,
   },
   colors: {
+    white: '#fff',
+    black: '#000',
     text: '#000',
     background: '#fff',
     primary: '#07c',
     secondary: '#30c',
     muted: '#f6f6f6',
+    error: 'red',
   },
   styles: {
     root: {
