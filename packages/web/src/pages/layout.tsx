@@ -9,14 +9,14 @@ import GlobalStyle from '../styles/global';
 import theme from '../styles/theme';
 import { Routes } from '../config/enums';
 import LoginPage from './login';
-import RestrictedApp from './restricted-app';
+import RootPage from './root';
 
 const Layout: React.FC = () => (
   <ThemeProvider theme={theme}>
     <GlobalStyle />
     <Switch>
       <Route path={Routes.LOGIN} component={LoginPage} />
-      <Route exact path={Routes.ROOT} component={RestrictedApp} />
+      <Route exact path={Routes.ROOT} component={RootPage} />
     </Switch>
     <ToastContainer />
   </ThemeProvider>

@@ -6,25 +6,19 @@ import { Box } from 'theme-ui';
 
 import { WHO_AM_I_QUERY } from '@app/common';
 import Header from '../../components/header';
-import { useAuth } from '../../context/auth';
 import { Routes } from '../../config/enums';
 import HomePage from './home';
 
-const RestrictedApp: React.FC = () => {
-  const { data, loading, error } = useQuery(WHO_AM_I_QUERY);
-  const { authState } = useAuth();
+const RootPage: React.FC = () => {
+  const { loading, error } = useQuery(WHO_AM_I_QUERY);
   const history = useHistory();
 
   useEffect(() => {
-    if (error && !data) {
+    if (error) {
       history.replace(Routes.LOGIN);
       toast.warn('You need to authenticate before continue');
     }
-  }, [error, data, history]);
-
-  useEffect(() => {
-    if (!authState.accessToken) history.push(Routes.LOGIN);
-  }, [authState.accessToken, history]);
+  }, [error, history]);
 
   if (loading) {
     return <span>Loading...</span>;
@@ -43,4 +37,4 @@ const RestrictedApp: React.FC = () => {
   );
 };
 
-export default RestrictedApp;
+export default RootPage;
