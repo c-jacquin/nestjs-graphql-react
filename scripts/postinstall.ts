@@ -12,12 +12,8 @@ const BLACKLIST = ['common', 'web'];
     promisify(glob)('./packages/*'),
     promisify(glob)('./scripts/env/*.env'),
   ]);
-  const availableEnv = envFiles.map(envPath =>
-    envPath
-      .split('/')
-      .pop()
-      .split('.')
-      .shift(),
+  const availableEnv = envFiles.map((envPath) =>
+    envPath.split('/').pop().split('.').shift(),
   );
 
   packages.push('/root');
@@ -25,12 +21,12 @@ const BLACKLIST = ['common', 'web'];
   try {
     await Promise.all(
       packages
-        .filter(packagePath =>
+        .filter((packagePath) =>
           availableEnv.includes(packagePath.split('/').pop()),
         )
-        .map(packagePath => packagePath.split('/').pop())
-        .filter(packageName => !BLACKLIST.includes(packageName))
-        .map(packageName => ({
+        .map((packagePath) => packagePath.split('/').pop())
+        .filter((packageName) => !BLACKLIST.includes(packageName))
+        .map((packageName) => ({
           packagePath:
             packageName === 'root'
               ? path.resolve(__dirname, '..', '.env.local')

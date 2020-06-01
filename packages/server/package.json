@@ -1,5 +1,5 @@
 {
-  "name": "@app/server",
+  "name": "@nestjs-graphql-react/server",
   "version": "0.0.0",
   "description": "nestjs graphql api",
   "author": "",
@@ -20,7 +20,7 @@
     "test:e2e": "cross-env NODE_ENV=test E2E=true jest --runInBand"
   },
   "dependencies": {
-    "@app/common": "0.0.0",
+    "@nestjs-graphql-react/common": "0.0.0",
     "@google-cloud/logging-winston": "^3.0.6",
     "@hapi/joi": "^17.1.1",
     "@nestjs/common": "^7.1.1",

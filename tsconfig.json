@@ -8,6 +8,7 @@
     "target": "es2017",
     "sourceMap": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "incremental": true,
     "baseUrl": ".",
     "paths": {
@@ -16,5 +17,10 @@
     }
   },
   "include": ["packages", "scripts"],
-  "exclude": ["node_modules", "packages/**/dist", "packages/**/node_modules", ".eslintrc.js"]
+  "exclude": [
+    "node_modules",
+    "packages/**/dist",
+    "packages/**/node_modules",
+    ".eslintrc.js"
+  ]
 }
