@@ -8,10 +8,10 @@
     "start": "parcel build src/index.html",
     "dev": "parcel src/index.html --open --port 1234",
     "lint": "eslint \"src/**/*.{ts,tsx,graphql}\" --fix",
-    "build": "parcel build src/index.html",
-    "test": "NODE_ENV=test jest",
-    "test:watch": "NODE_ENV=test jest --watch",
-    "test:cov": "NODE_ENV=test jest --coverage"
+    "build": "parcel build src/index.html && shx cp -R ./public/. ./dist",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:watch": "cross-env NODE_ENV=test jest --watch",
+    "test:cov": "cross-env NODE_ENV=test jest --coverage"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
@@ -49,6 +49,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-test-renderer": "^16.9.2",
     "@types/theme-ui": "^0.3.2",
+    "cross-env": "^7.0.2",
     "jest": "^26.0.1",
     "jest-chain": "^1.1.5",
     "jest-css-modules": "^2.1.0",
@@ -56,6 +57,7 @@
     "jest-ts-auto-mock": "^1.0.11",
     "parcel": "^2.0.0-alpha.3.2",
     "react-test-renderer": "^16.13.1",
+    "shx": "^0.3.2",
     "ts-auto-mock": "^2.1.22",
     "ts-jest": "^26.0.0",
     "ttypescript": "^1.5.10",
