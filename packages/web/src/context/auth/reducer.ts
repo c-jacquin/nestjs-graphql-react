@@ -3,7 +3,6 @@ import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { Logger } from 'winston';
 
 import { StorageKey } from '../../config/enums';
-import createLogger, { Loggers } from '../../config/logger';
 import { IStorage } from '../../core/dependencies';
 import { Action, Reducer } from '../type';
 
@@ -25,14 +24,13 @@ export interface AuthDependencies {
   apolloClient: ApolloClient<NormalizedCacheObject>;
 }
 
-const authLogger = createLogger(Loggers.AUTH);
-
 const authReducer: Reducer<AuthState, AuthAction, AuthDependencies> = ({
   session,
   storage,
   apolloClient,
+  logger,
 }) => (state, action) => {
-  authLogger.info('action ==> ', action.type, action.payload);
+  logger.info('action ==> ', action.type, action.payload);
 
   switch (action.type) {
     case AuthActionType.LOGIN: {

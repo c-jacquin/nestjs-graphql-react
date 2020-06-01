@@ -22,9 +22,12 @@ jest.mock('../../context/auth', () => ({
   AuthActionType: { LOGIN: 'TEST_LOGIN' },
 }));
 
-import RootPage from './';
+import { ThemeProvider } from 'theme-ui';
 import { WHO_AM_I_QUERY, Roles } from '@app/common';
+import RootPage from './';
 import { Routes } from '../../config/enums';
+import { AsideProvider } from '../../context/aside';
+import theme from '../../styles/theme';
 
 describe('[pages] Root page', () => {
   let mocks: MockedResponse[];
@@ -34,13 +37,17 @@ describe('[pages] Root page', () => {
   const renderWithProviders = () =>
     render(
       <Router history={history}>
-        <MockedProvider
-          mocks={mocks}
-          addTypename={false}
-          defaultOptions={{ mutate: { errorPolicy: 'all' } }}
-        >
-          <RootPage />
-        </MockedProvider>
+        <ThemeProvider theme={theme}>
+          <AsideProvider>
+            <MockedProvider
+              mocks={mocks}
+              addTypename={false}
+              defaultOptions={{ mutate: { errorPolicy: 'all' } }}
+            >
+              <RootPage />
+            </MockedProvider>
+          </AsideProvider>
+        </ThemeProvider>
       </Router>,
     );
 

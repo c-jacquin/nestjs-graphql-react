@@ -7,7 +7,7 @@ import authReducer, {
   AuthState,
 } from './reducer';
 import { StorageKey, Routes } from '../../config/enums';
-import useLogger from '../../hooks/logger';
+import useLogger from '../../hooks/useLogger';
 import { Loggers } from '../../config/logger';
 import usePreviousValue from '../../hooks/usePreviousValue';
 
@@ -66,7 +66,7 @@ function useAuthDispatch() {
   const context = React.useContext(AuthDispatchContext);
 
   if (context === undefined) {
-    throw new Error('useCountDispatch must be used within a AuthProvider');
+    throw new Error('useAuthDispatch must be used within a AuthProvider');
   }
 
   return context;

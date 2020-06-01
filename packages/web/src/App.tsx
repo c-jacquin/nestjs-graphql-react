@@ -1,18 +1,36 @@
+import 'react-toastify/dist/ReactToastify.css';
 import { ApolloProvider } from '@apollo/react-hooks';
 import React from 'react';
 import { Router } from 'react-router';
+import { Switch, Route } from 'react-router';
+import { ToastContainer } from 'react-toastify';
+import { ThemeProvider } from 'theme-ui';
 
+import { Routes } from './config/enums';
+import { AsideProvider } from './context/aside';
 import { AuthProvider } from './context/auth';
 import { AppDependencies } from './core/dependencies';
-import Layout from './pages/layout';
+import LoginPage from './pages/login';
+import RootPage from './pages/root';
+import GlobalStyle from './styles/global';
+import theme from './styles/theme';
 
 const App: React.FC<AppDependencies> = ({ ...dependencies }) => {
   return (
     <ApolloProvider client={dependencies.apolloClient}>
       <Router history={dependencies.history}>
-        <AuthProvider dependencies={dependencies}>
-          <Layout />
-        </AuthProvider>
+        <GlobalStyle />
+        <ThemeProvider theme={theme}>
+          <AuthProvider dependencies={dependencies}>
+            <AsideProvider>
+              <Switch>
+                <Route exact path={Routes.LOGIN} component={LoginPage} />
+                <Route path={Routes.ROOT} component={RootPage} />
+              </Switch>
+              <ToastContainer />
+            </AsideProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </Router>
     </ApolloProvider>
   );

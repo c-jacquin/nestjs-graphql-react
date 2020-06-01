@@ -1,5 +1,5 @@
 export type Reducer<S, A, D = unknown> = (
-  dependencies: D,
+  dependencies?: D,
 ) => (state: S, action: A) => S;
 
 export interface Action<T, P = unknown> {
