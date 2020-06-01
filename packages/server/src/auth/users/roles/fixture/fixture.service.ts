@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 import { RolesService } from '../roles.service';
 
 @Injectable()

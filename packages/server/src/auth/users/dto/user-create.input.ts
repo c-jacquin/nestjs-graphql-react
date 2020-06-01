@@ -8,7 +8,7 @@ import {
   IsArray,
 } from 'class-validator';
 
-import { passwordRegExp, Roles } from '@app/common';
+import { passwordRegExp, Roles } from '@nestjs-graphql-react/common';
 import { EmailScalar as Email } from 'common/email/email.scalar';
 
 @InputType()

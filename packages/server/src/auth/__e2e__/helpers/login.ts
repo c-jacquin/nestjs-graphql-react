@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 
-import { HttpHeaders, LOGIN_MUTATION_RAW } from '@app/common';
+import { HttpHeaders, LOGIN_MUTATION_RAW } from '@nestjs-graphql-react/common';
 import { sendBasicRequest } from '__e2e__/helpers/request';
 import { SignInArgs } from 'auth/dto/sign-in.args';
 

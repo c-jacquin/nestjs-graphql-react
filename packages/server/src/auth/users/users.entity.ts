@@ -11,7 +11,7 @@ import {
   AfterLoad,
 } from 'typeorm';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 import { RoleEntity } from 'auth/users/roles/roles.entity';
 import { UserCreateInput } from 'auth/users/dto/user-create.input';
 import { WithDate } from 'common/_utils';

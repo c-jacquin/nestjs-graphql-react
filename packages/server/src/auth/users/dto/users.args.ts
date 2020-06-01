@@ -1,7 +1,7 @@
 import { ArgsType, Field, ID } from '@nestjs/graphql';
 import { IsEmail, IsOptional, IsUUID, IsEnum } from 'class-validator';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 import { PaginationArgs } from 'common/_utils';
 
 @ArgsType()

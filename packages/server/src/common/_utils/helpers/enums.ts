@@ -1,6 +1,6 @@
 import { registerEnumType } from '@nestjs/graphql';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 
 export enum Env {
   DEBUG = 'DEBUG',

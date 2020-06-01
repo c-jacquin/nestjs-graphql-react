@@ -4,7 +4,7 @@ import { utilities as nestWinstonUtils } from 'nest-winston';
 
 import winston, { LoggerOptions } from 'winston';
 
-import { NodeEnv } from '@app/common';
+import { NodeEnv } from '@nestjs-graphql-react/common';
 import { Env } from 'common/_utils';
 import { StreamTransportInstance } from 'winston/lib/winston/transports';
 

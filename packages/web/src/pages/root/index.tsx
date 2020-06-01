@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { WHO_AM_I_QUERY } from '@app/common';
+import { WHO_AM_I_QUERY } from '@nestjs-graphql-react/common';
 import { Routes } from '../../config/enums';
 import HomePage from './home';
 import AboutPage from './about';

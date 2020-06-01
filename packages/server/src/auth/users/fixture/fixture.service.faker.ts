@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import faker from 'faker';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 import { UserCreateInput } from 'auth/users/dto/user-create.input';
 import { UsersFixture } from 'auth/users/fixture/fixture.service';
 

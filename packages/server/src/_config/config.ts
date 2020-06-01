@@ -2,7 +2,7 @@ import Joi from '@hapi/joi';
 import { ConfigModuleOptions } from '@nestjs/config/dist/interfaces';
 import path from 'path';
 
-import { NodeEnv } from '@app/common';
+import { NodeEnv } from '@nestjs-graphql-react/common';
 import { Env } from 'common/_utils';
 import graphqlConfig, { GRAPHQL_CONFIG_KEY } from '_config/graphql';
 import loggerConfig, { LogLvl, LOGGER_CONFIG_KEY } from '_config/logger';

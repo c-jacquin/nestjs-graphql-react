@@ -22,7 +22,7 @@ jest.mock('react-toastify', () => ({
   toast: toastMock,
 }));
 
-import { WHO_AM_I_QUERY, Roles, LOGIN_MUTATION } from '@app/common';
+import { WHO_AM_I_QUERY, Roles, LOGIN_MUTATION } from '@boilerplate/common';
 import { Routes } from '../../config/enums';
 import LoginPage from '.';
 import { GraphQLError } from 'graphql';

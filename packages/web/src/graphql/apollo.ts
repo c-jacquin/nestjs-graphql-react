@@ -3,7 +3,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { from } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-import { NodeEnv } from '@app/common';
+import { NodeEnv } from '@nestjs-graphql-react/common';
 import authMiddleware from './middlewares/auth';
 import errorMiddleware from './middlewares/error';
 import loggerMiddleware from './middlewares/log';

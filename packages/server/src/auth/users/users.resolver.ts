@@ -1,7 +1,7 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { Inject } from '@nestjs/common';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 import { Restrict, Strategy } from 'auth/auth.decorator';
 import { UserEntity } from 'auth/users/users.entity';
 import { UsersService } from 'auth/users/users.service';

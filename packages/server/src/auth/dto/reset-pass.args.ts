@@ -1,7 +1,7 @@
 import { ArgsType, Field } from '@nestjs/graphql';
 import { IsString, Matches } from 'class-validator';
 
-import { passwordRegExp } from '@app/common';
+import { passwordRegExp } from '@nestjs-graphql-react/common';
 
 @ArgsType()
 export class ResetPassArgs {

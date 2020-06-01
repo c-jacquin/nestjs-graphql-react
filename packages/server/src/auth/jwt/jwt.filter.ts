@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { GqlArgumentsHost, GqlExceptionFilter } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 
-import { HttpHeaders } from '@app/common';
+import { HttpHeaders } from '@nestjs-graphql-react/common';
 import { ExpiredAccessTokenException } from 'auth/jwt/jwt.exception';
 import { TokenService } from 'auth/jwt/token/token.service';
 import { Env, IContext } from 'common/_utils';

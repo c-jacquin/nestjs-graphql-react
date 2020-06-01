@@ -2,7 +2,6 @@ import path from 'path';
 import fs from 'fs-extra';
 import glob from 'glob';
 import { promisify } from 'util';
-// import { exec } from 'child_process';
 import kebabCase from 'kebab-case';
 import { replaceInFile } from 'replace-in-file';
 
@@ -74,11 +73,6 @@ const rootJsonPkg = path.join(process.cwd(), 'package.json');
       await Promise.all(promises);
       logger.info('monorepo bootstraped');
     }
-    // await fs.unlink(path.join(process.cwd(), '.git'));
-
-    // await promisify(exec)('git init');
-    // await promisify(exec)('git add -A');
-    // await promisify(exec)('git commit -m "chore: initial commit"');
   } catch (err) {
     logger.error('something fail while bootstraping');
   }

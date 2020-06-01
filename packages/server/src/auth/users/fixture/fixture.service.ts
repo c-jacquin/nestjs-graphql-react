@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 import { UsersService } from 'auth/users/users.service';
 import { RolesFixture } from 'auth/users/roles/fixture/fixture.service';
 import { IFixture, Env } from 'common/_utils';

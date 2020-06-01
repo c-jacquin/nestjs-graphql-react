@@ -1,7 +1,7 @@
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 import { Entity, PrimaryColumn, Column, ManyToMany } from 'typeorm';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 import { UserEntity } from 'auth/users/users.entity';
 
 @ObjectType()

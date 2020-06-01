@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import { Box, Flex, Spinner, jsx } from 'theme-ui';
 
-import { LOGIN_MUTATION, WHO_AM_I_QUERY } from '@app/common';
+import { LOGIN_MUTATION, WHO_AM_I_QUERY } from '@nestjs-graphql-react/common';
 import { AuthActionType, useAuth } from '../../context/auth';
 import { Routes } from '../../config/enums';
 import LoginForm from './components/login-form';

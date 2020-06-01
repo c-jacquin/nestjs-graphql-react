@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { UserEntity } from 'auth/users/users.entity';
 import { UsersArgs } from 'auth/users/dto/users.args';
 import { UserCreateInput } from 'auth/users/dto/user-create.input';
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 
 @Injectable()
 export class UsersService {

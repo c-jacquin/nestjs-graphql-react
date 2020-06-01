@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 
-import { NodeEnv } from '@app/common';
+import { NodeEnv } from '@nestjs-graphql-react/common';
 import { loggerConfig } from '_config/logger';
 import { AppModule, prepareApp } from 'app.module';
 import { Env } from 'common/_utils';

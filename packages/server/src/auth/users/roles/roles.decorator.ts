@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 
 export const restrictToMetaKey = Symbol('roles');
 

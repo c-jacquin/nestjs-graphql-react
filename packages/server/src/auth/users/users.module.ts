@@ -14,7 +14,7 @@ import { LocalRolesGuard } from 'auth/users/roles/roles.guard';
 import { RolesService } from 'auth/users/roles/roles.service';
 import { Env } from 'common/_utils';
 import { RolesGuard } from 'common/roles/roles.guard';
-import { NodeEnv } from '@app/common';
+import { NodeEnv } from '@nestjs-graphql-react/common';
 
 @Module({
   imports: [

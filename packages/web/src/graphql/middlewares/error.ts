@@ -1,6 +1,6 @@
 import { onError } from 'apollo-link-error';
 
-import { Errors } from '@app/common';
+import { Errors } from '@nestjs-graphql-react/common';
 import { StorageKey } from '../../config/enums';
 import { ApolloMiddleware } from '../types';
 

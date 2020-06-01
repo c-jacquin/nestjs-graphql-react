@@ -1,7 +1,7 @@
 import { ExecutionContext, createParamDecorator } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 
 export type ReqUser = { id: string; roles: Roles };
 

@@ -1,4 +1,4 @@
-import { Errors } from '@app/common';
+import { Errors } from '@nestjs-graphql-react/common';
 import { expectHasError } from '__e2e__/helpers/http-errors.expect';
 
 export function expectMissingToken(errors: Error[]) {

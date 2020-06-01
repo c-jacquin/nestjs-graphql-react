@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { SIGNUP_MUTATION_RAW } from '@app/common';
+import { SIGNUP_MUTATION_RAW } from '@nestjs-graphql-react/common';
 import { bootstapE2eApp } from '__e2e__/helpers/bootstrap';
 import { expectHasError } from '__e2e__/helpers/http-errors.expect';
 import { normalUser } from 'auth/__e2e__/helpers/users';

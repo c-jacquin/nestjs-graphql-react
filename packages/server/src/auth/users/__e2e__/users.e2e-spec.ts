@@ -5,7 +5,7 @@ import request from 'supertest';
 import { Repository } from 'typeorm';
 import { compose, toLower, prop, sortWith, descend } from 'ramda';
 
-import { Roles, GET_USERS_QUERY_RAW } from '@app/common';
+import { Roles, GET_USERS_QUERY_RAW } from '@nestjs-graphql-react/common';
 import { bootstapE2eApp } from '__e2e__/helpers/bootstrap';
 import { expectUnauthorized } from '__e2e__/helpers/http-errors.expect';
 import { login } from 'auth/__e2e__/helpers/login';

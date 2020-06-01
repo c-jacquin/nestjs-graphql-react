@@ -2,7 +2,7 @@ import { registerAs } from '@nestjs/config';
 import { ConnectionOptions } from 'typeorm';
 
 import { Env } from 'common/_utils';
-import { NodeEnv } from '@app/common';
+import { NodeEnv } from '@nestjs-graphql-react/common';
 
 const entities = [NodeEnv.TEST].includes(process.env.NODE_ENV as NodeEnv)
   ? 'src/**/*.entity.ts'

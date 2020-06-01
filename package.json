@@ -6,6 +6,10 @@
     "packages/*"
   ],
   "bootstraped": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/charjac/nestjs-graphql-react.git"
+  },
   "scripts": {
     "install": "ts-node -r tsconfig-paths/register scripts/bootstrap && lerna bootstrap --use-workspaces",
     "postinstall": "ts-node -r tsconfig-paths/register scripts/postinstall",

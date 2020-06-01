@@ -2,7 +2,7 @@ import { registerAs } from '@nestjs/config';
 import { GqlModuleOptions } from '@nestjs/graphql';
 import path from 'path';
 
-import { NodeEnv } from '@app/common';
+import { NodeEnv } from '@nestjs-graphql-react/common';
 import { IContext } from 'common/_utils';
 
 export const GRAPHQL_CONFIG_KEY = 'graphql';

@@ -1,5 +1,5 @@
 {
-  "name": "@app/web",
+  "name": "@nestjs-graphql-react/web",
   "version": "0.0.0",
   "description": "react/apollo web app",
   "license": "UNLICENSED",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
-    "@app/common": "0.0.0",
+    "@nestjs-graphql-react/common": "0.0.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "@theme-ui/color": "^0.3.1",

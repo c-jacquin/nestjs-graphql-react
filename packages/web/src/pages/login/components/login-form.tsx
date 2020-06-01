@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Box, Button, Label, Input, Spinner, Flex } from 'theme-ui';
 
-import { emailRegExp } from '@app/common';
+import { emailRegExp } from '@nestjs-graphql-react/common';
 import FormErrors from '../../../components/forms/errors';
 
 export interface LoginFormValue {

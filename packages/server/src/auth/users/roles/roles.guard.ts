@@ -2,7 +2,7 @@ import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
-import { Roles } from '@app/common';
+import { Roles } from '@nestjs-graphql-react/common';
 import { IContext } from 'common/_utils';
 import { restrictToMetaKey } from 'auth/users/roles/roles.decorator';
 import { RolesGuard } from 'common/roles/roles.guard';

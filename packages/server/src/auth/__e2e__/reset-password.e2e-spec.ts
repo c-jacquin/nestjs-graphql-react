@@ -3,7 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import request from 'supertest';
 import { Repository } from 'typeorm';
 
-import { RESET_PASSWORD_MUTATION_RAW } from '@app/common';
+import { RESET_PASSWORD_MUTATION_RAW } from '@nestjs-graphql-react/common';
 import { bootstapE2eApp } from '__e2e__/helpers/bootstrap';
 import { login } from 'auth/__e2e__/helpers/login';
 import { adminUser } from 'auth/__e2e__/helpers/users';

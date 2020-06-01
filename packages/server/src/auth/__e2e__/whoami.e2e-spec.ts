@@ -2,7 +2,11 @@ import { INestApplication } from '@nestjs/common';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import request from 'supertest';
 
-import { HttpHeaders, Roles, WHO_AM_I_QUERY_RAW } from '@app/common';
+import {
+  HttpHeaders,
+  Roles,
+  WHO_AM_I_QUERY_RAW,
+} from '@nestjs-graphql-react/common';
 import { bootstapE2eApp } from '__e2e__/helpers/bootstrap';
 import { login } from 'auth/__e2e__/helpers/login';
 import {

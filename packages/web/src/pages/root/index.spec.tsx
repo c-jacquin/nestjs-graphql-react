@@ -23,7 +23,7 @@ jest.mock('../../context/auth', () => ({
 }));
 
 import { ThemeProvider } from 'theme-ui';
-import { WHO_AM_I_QUERY, Roles } from '@app/common';
+import { WHO_AM_I_QUERY, Roles } from '@boilerplate/common';
 import RootPage from './';
 import { Routes } from '../../config/enums';
 import { AsideProvider } from '../../context/aside';

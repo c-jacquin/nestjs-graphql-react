@@ -1,6 +1,6 @@
 import { ApolloLink } from 'apollo-link';
 
-import { HttpHeaders } from '@app/common';
+import { HttpHeaders } from '@nestjs-graphql-react/common';
 import { StorageKey } from '../../config/enums';
 import { ApolloMiddleware } from '../types';
 
