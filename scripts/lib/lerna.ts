@@ -27,15 +27,19 @@ function spawnLerna(args: string[]) {
   const lernaProcess = execFile(lernaBinPath, args);
 
   lernaProcess.stdout
-    .on('data', data => process.stdout.write(formatMessage(data.toString())))
-    .on('error', data => process.stderr.write(formatMessage(data.toString())));
+    .on('data', (data) => process.stdout.write(formatMessage(data.toString())))
+    .on('error', (data) =>
+      process.stderr.write(formatMessage(data.toString())),
+    );
 
   lernaProcess.stderr
-    .on('data', data => process.stdout.write(formatMessage(data.toString())))
-    .on('error', data => process.stderr.write(formatMessage(data.toString())));
+    .on('data', (data) => process.stdout.write(formatMessage(data.toString())))
+    .on('error', (data) =>
+      process.stderr.write(formatMessage(data.toString())),
+    );
 
   return new Promise((resolve, reject) => {
-    lernaProcess.on('close', () => resolve()).on('error', err => reject(err));
+    lernaProcess.on('close', () => resolve()).on('error', (err) => reject(err));
   });
 }
 

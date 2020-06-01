@@ -10,11 +10,11 @@ type Container = 'postgres' | 'pgadmin';
 class Docker {
   closeContainers(containers: Container[]) {
     return Promise.all(
-      containers.map(container => {
+      containers.map((container) => {
         return new Promise((resolve, reject) => {
           spawn('docker', ['stop', container])
             .on('close', () => resolve())
-            .on('error', err => reject(err));
+            .on('error', (err) => reject(err));
         });
       }),
     );
@@ -50,9 +50,9 @@ class Docker {
 
       spawn('docker-compose', args)
         .on('close', () => resolve())
-        .on('error', err => reject(err))
-        .stderr.on('data', data => logger.info(data.toString()))
-        .on('error', data => logger.error(data.toString()));
+        .on('error', (err) => reject(err))
+        .stderr.on('data', (data) => logger.info(data.toString()))
+        .on('error', (data) => logger.error(data.toString()));
     });
   }
 }

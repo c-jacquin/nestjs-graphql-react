@@ -1,11 +1,13 @@
 import path from 'path';
 import fs from 'fs-extra';
 import glob from 'glob';
+import del from 'del';
 import { promisify } from 'util';
 import kebabCase from 'kebab-case';
 import { replaceInFile } from 'replace-in-file';
 
 import logger from '@app-scripts/lib/logger';
+import spawnGit from '@app-scripts/lib/git';
 
 const rootJsonPkg = path.join(process.cwd(), 'package.json');
 
@@ -72,8 +74,25 @@ const rootJsonPkg = path.join(process.cwd(), 'package.json');
 
       await Promise.all(promises);
       logger.info('monorepo bootstraped');
+
+      logger.info('setup git');
+
+      await del(path.join(process.cwd(), '.git'));
+      await spawnGit(['init']);
+      await spawnGit(['add', '-A']);
+      await spawnGit(['commit', '-m', 'chore: initial commit']);
+
+      if (
+        pkg.repository?.url !==
+        'https://github.com/charjac/nestjs-graphql-react.git'
+      ) {
+        await spawnGit(['remote', 'set-url', 'origin', pkg.repository.url]);
+      }
+
+      logger.info('fresh git repo initialized');
     }
   } catch (err) {
     logger.error('something fail while bootstraping');
+    logger.error(err);
   }
 })();
