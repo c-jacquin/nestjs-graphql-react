@@ -5,6 +5,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
+    "start": "parcel build src/index.html",
     "dev": "parcel src/index.html --open --port 1234",
     "lint": "eslint \"src/**/*.{ts,tsx,graphql}\" --fix",
     "build": "parcel build src/index.html",

@@ -7,6 +7,7 @@ import App from './App';
 import createLogger, { Loggers } from './config/logger';
 import { AppDependencies } from './core/dependencies';
 import configureApollo from './graphql/apollo';
+import * as serviceWorker from './serviceWorker';
 
 const dependencies: AppDependencies = {
   storage: localStorage,
@@ -23,3 +24,5 @@ ReactDOM.render(
   <App {...dependencies} />,
   document.getElementById('react-app'),
 );
+
+serviceWorker.register();

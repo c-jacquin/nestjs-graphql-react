@@ -18,6 +18,7 @@ export enum Loggers {
   GRAPHQL = 'Graphql',
   AUTH = 'Auth',
   App = 'App',
+  SERVICE_WORKER = 'Service Worker',
 }
 
 export default createLogger;
