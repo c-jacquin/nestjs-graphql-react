@@ -7,7 +7,6 @@ module.exports = {
     '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest',
   },
   testRegex: '\\.spec.(ts|tsx)$',
-  // setupFiles: ['jest-ts-auto-mock'],
   setupFilesAfterEnv: ['../jest.setup.js'],
   coverageDirectory: '../coverage',
   globals: {
@@ -19,6 +18,5 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|scss|sss|styl)$':
       '<rootDir>/../../../node_modules/jest-css-modules',
-    // '\\.(gql|graphql)$': 'jest-transform-graphql',
   },
 };

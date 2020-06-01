@@ -1,13 +1,15 @@
+/** @jsx jsx */
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import { Box, Flex, Spinner } from 'theme-ui';
+import { Box, Flex, Spinner, jsx } from 'theme-ui';
 
 import { LOGIN_MUTATION, WHO_AM_I_QUERY } from '@app/common';
 import { AuthActionType, useAuth } from '../../context/auth';
 import { Routes } from '../../config/enums';
 import LoginForm from './components/login-form';
+import AnimatedPage from '../../components/layout/animatedPage';
 
 const LoginPage: React.FC = () => {
   const [login, { data, error, loading }] = useMutation(LOGIN_MUTATION);
@@ -38,8 +40,9 @@ const LoginPage: React.FC = () => {
   }, [whoAmIResult.data, history]);
 
   return (
-    <Flex
+    <AnimatedPage
       sx={{
+        display: 'flex',
         flexDirection: 'column',
         height: '100%',
         mx: 'auto',
@@ -64,7 +67,7 @@ const LoginPage: React.FC = () => {
           <LoginForm onSubmit={login} loading={loading} />
         )}
       </Flex>
-    </Flex>
+    </AnimatedPage>
   );
 };
 

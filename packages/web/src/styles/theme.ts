@@ -65,6 +65,11 @@ const theme = {
       flex: '1 1 auto',
       position: 'relative',
     },
+    page: {
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    },
     footer: {
       bg: 'darken',
       color: 'gray',

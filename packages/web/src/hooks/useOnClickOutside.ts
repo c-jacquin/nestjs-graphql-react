@@ -1,15 +1,18 @@
 import { useEffect, MutableRefObject } from 'react';
 
 function useOnClickOutside(
-  ref: MutableRefObject<HTMLElement>,
+  refs: MutableRefObject<HTMLElement>[],
   handler: (evt: globalThis.MouseEvent) => void,
 ) {
   useEffect(() => {
     const listener = (event: globalThis.MouseEvent) => {
-      // Do nothing if clicking ref's element or descendent elements
-      if (!ref.current || ref.current.contains(event.target as Node)) {
-        return;
-      }
+      const clickOnRefs = refs.reduce(
+        (acc, ref) =>
+          acc || !ref.current || ref.current.contains(event.target as Node),
+        false,
+      );
+
+      if (clickOnRefs) return;
 
       handler(event);
     };
@@ -21,7 +24,7 @@ function useOnClickOutside(
       document.removeEventListener('mousedown', listener);
       document.removeEventListener('touchstart', listener);
     };
-  }, [ref, handler]);
+  }, [refs, handler]);
 }
 
 export default useOnClickOutside;

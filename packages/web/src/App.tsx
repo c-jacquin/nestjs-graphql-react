@@ -1,5 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { Router } from 'react-router';
 import { Switch, Route } from 'react-router';
@@ -23,10 +24,12 @@ const App: React.FC<AppDependencies> = ({ ...dependencies }) => {
         <ThemeProvider theme={theme}>
           <AuthProvider dependencies={dependencies}>
             <AsideProvider>
-              <Switch>
-                <Route exact path={Routes.LOGIN} component={LoginPage} />
-                <Route path={Routes.ROOT} component={RootPage} />
-              </Switch>
+              <AnimatePresence>
+                <Switch>
+                  <Route exact path={Routes.LOGIN} component={LoginPage} />
+                  <Route path={Routes.ROOT} component={RootPage} />
+                </Switch>
+              </AnimatePresence>
               <ToastContainer />
             </AsideProvider>
           </AuthProvider>

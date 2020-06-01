@@ -1,5 +1,5 @@
 import { Box, Flex, Text, MenuButton, IconButton, FlexProps } from 'theme-ui';
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
 
 import { AuthActionType, useAuth } from '../../context/auth';
@@ -7,9 +7,14 @@ import { useAside, AsideActionType } from '../../context/aside';
 
 interface HeaderProps {
   title: string;
+  menuButtonRef: MutableRefObject<HTMLElement>;
 }
 
-const Header: React.FC<HeaderProps & FlexProps> = ({ title, ...props }) => {
+const Header: React.FC<HeaderProps & FlexProps> = ({
+  title,
+  menuButtonRef,
+  ...props
+}) => {
   const { dispatch: authDispatch } = useAuth();
   const { dispatch: asideDispatch } = useAside();
 
@@ -24,6 +29,7 @@ const Header: React.FC<HeaderProps & FlexProps> = ({ title, ...props }) => {
       }}
     >
       <MenuButton
+        ref={menuButtonRef as never}
         onClick={() =>
           asideDispatch({
             type: AsideActionType.TOGGLE,

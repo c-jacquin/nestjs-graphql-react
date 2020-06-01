@@ -1,9 +1,11 @@
-import { Box, Container } from 'theme-ui';
-import React from 'react';
+/** @jsx jsx */
+import { Box, Container, jsx } from 'theme-ui';
+import React, { useRef } from 'react';
 
 import { useAside } from '../../context/aside';
 import Aside from './aside';
 import Header from './header';
+import AnimatedPage from './animatedPage';
 
 export interface LayoutProps {
   aside?: boolean;
@@ -11,10 +13,11 @@ export interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ aside, children }) => {
   const { asideState } = useAside();
+  const menuButtonRef = useRef<HTMLElement>();
 
   return (
-    <Box sx={{ variant: 'layout' }}>
-      <Header title="My app" />
+    <AnimatedPage sx={{ variant: 'layout' }}>
+      <Header title="My app" menuButtonRef={menuButtonRef} />
       <Box sx={{ variant: 'layout.main' }}>
         {aside && (
           <Aside
@@ -23,6 +26,7 @@ const Layout: React.FC<LayoutProps> = ({ aside, children }) => {
               open: { opacity: 1, x: 0 },
               closed: { opacity: 0, x: '-100%' },
             }}
+            menuButtonRef={menuButtonRef}
           />
         )}
         <Container as="main">{children}</Container>
@@ -30,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ aside, children }) => {
       <Box as="footer" sx={{ variant: 'layout.footer' }}>
         <Container>Footer</Container>
       </Box>
-    </Box>
+    </AnimatedPage>
   );
 };
 

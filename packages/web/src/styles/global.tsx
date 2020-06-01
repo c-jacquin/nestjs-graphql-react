@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Global, css } from '@emotion/core';
 import emotionNormalize from 'emotion-normalize';
+import React from 'react';
 
 const GlobalStyle: React.FC = () => (
   <Global

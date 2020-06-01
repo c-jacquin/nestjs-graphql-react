@@ -1,4 +1,4 @@
-export type Reducer<S, A, D = unknown> = (
+export type ReducerFactory<S, A, D = unknown> = (
   dependencies?: D,
 ) => (state: S, action: A) => S;
 

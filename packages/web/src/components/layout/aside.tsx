@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, Box } from 'theme-ui';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, MutableRefObject } from 'react';
 import styled from '@emotion/styled';
 import { motion, HTMLMotionProps } from 'framer-motion';
 import { Theme } from 'theme-ui';
@@ -21,12 +21,20 @@ const MotionAside = styled(motion.aside)`
   flex-direction: column;
 `;
 
-const Aside: React.FC<HTMLMotionProps<'ruby'>> = ({ ...props }) => {
-  const asideRef = useRef<HTMLDivElement>();
-  const { dispatch, asideState } = useAside();
+interface AsideProps {
+  menuButtonRef?: MutableRefObject<HTMLElement>;
+}
 
+const Aside: React.FC<HTMLMotionProps<'ruby'> & AsideProps> = ({
+  menuButtonRef,
+  ...props
+}) => {
+  const asideRef = useRef<HTMLElement>();
+  const { dispatch, asideState } = useAside();
+  const refs = [asideRef];
+  if (menuButtonRef) refs.push(menuButtonRef);
   useOnClickOutside(
-    asideRef,
+    refs,
     () => asideState.isOpen && dispatch({ type: AsideActionType.CLOSE }),
   );
 

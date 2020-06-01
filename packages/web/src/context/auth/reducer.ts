@@ -4,7 +4,7 @@ import { Logger } from 'winston';
 
 import { StorageKey } from '../../config/enums';
 import { IStorage } from '../../core/dependencies';
-import { Action, Reducer } from '../type';
+import { Action, ReducerFactory } from '../type';
 
 export interface AuthState {
   accessToken?: string;
@@ -24,7 +24,7 @@ export interface AuthDependencies {
   apolloClient: ApolloClient<NormalizedCacheObject>;
 }
 
-const authReducer: Reducer<AuthState, AuthAction, AuthDependencies> = ({
+const authReducer: ReducerFactory<AuthState, AuthAction, AuthDependencies> = ({
   session,
   storage,
   apolloClient,

@@ -1,6 +1,6 @@
 import { Logger } from 'winston';
 
-import { Reducer, Action } from '../type';
+import { ReducerFactory, Action } from '../type';
 
 export interface AsideState {
   isOpen: boolean;
@@ -20,7 +20,7 @@ export interface asideReducerDependencies {
   looger: Logger;
 }
 
-const asideReducer: Reducer<AsideState, AsideAction> = ({ logger }) => (
+const asideReducer: ReducerFactory<AsideState, AsideAction> = ({ logger }) => (
   state,
   action,
 ) => {
