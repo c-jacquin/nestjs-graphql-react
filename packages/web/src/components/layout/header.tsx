@@ -7,7 +7,7 @@ import { useAside, AsideActionType } from '../../context/aside';
 
 interface HeaderProps {
   title: string;
-  menuButtonRef: MutableRefObject<HTMLElement>;
+  menuButtonRef?: MutableRefObject<HTMLElement>;
 }
 
 const Header: React.FC<HeaderProps & FlexProps> = ({

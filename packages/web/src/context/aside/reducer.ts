@@ -16,14 +16,15 @@ export type AsideAction = Action<AsideActionType>;
 
 export type AsideDispatch = (action: AsideAction) => void;
 
-export interface asideReducerDependencies {
-  looger: Logger;
+export interface AsideReducerDependencies {
+  logger: Logger;
 }
 
-const asideReducer: ReducerFactory<AsideState, AsideAction> = ({ logger }) => (
-  state,
-  action,
-) => {
+const asideReducer: ReducerFactory<
+  AsideState,
+  AsideAction,
+  AsideReducerDependencies
+> = ({ logger }) => (state, action) => {
   logger.info('aside: action ==> ', action.type, action.payload);
 
   switch (action.type) {

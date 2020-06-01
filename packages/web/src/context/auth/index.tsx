@@ -17,8 +17,12 @@ const AuthDispatchContext = React.createContext<AuthDispatch | undefined>(
   undefined,
 );
 
+type AuthProviderDependencies = Omit<AuthDependencies, 'logger'> & {
+  history: History;
+};
+
 interface AuthProviderProps {
-  dependencies: Omit<AuthDependencies, 'logger'> & { history: History };
+  dependencies: AuthProviderDependencies;
   initialState?: AuthState;
 }
 
@@ -79,5 +83,5 @@ function useAuth() {
   };
 }
 
-export { AuthProvider, useAuth };
+export { AuthProvider, useAuth, AuthProviderDependencies };
 export * from './reducer';
